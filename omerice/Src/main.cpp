@@ -210,12 +210,11 @@ int main(void)
   MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
 int i=0;
-HAL_TIM_Base_Start_IT(&htim2);
- HAL_TIM_Base_Start_IT(&htim3);
- robot.gyro.gyro_init();
- HAL_TIM_Base_Start_IT(&htim6);
-
-
+//HAL_TIM_Base_Start_IT(&htim2);
+ //HAL_TIM_Base_Start_IT(&htim3);
+ //robot.gyro.gyro_init();
+ //HAL_TIM_Base_Start_IT(&htim6);
+robot.servoa.begin();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -226,9 +225,15 @@ HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	 robot.servoa.set_pulse(25);
+	  HAL_Delay(500);
+	 robot.servoa.set_pulse(50);
+	  HAL_Delay(500);
+	 robot.servoa.set_pulse(75);
+	  HAL_Delay(500);
+	  //printf("%d\n\r",i);
 
-
-
+//printf("deg:%f\n\r",robot.gyro.Zdeg());
 }
 
   /* USER CODE END 3 */
@@ -667,9 +672,9 @@ static void MX_TIM8_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
   htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 130;
+  htim8.Init.Prescaler = 15;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 12499;
+  htim8.Init.Period = 9999;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   if (HAL_TIM_PWM_Init(&htim8) != HAL_OK)
