@@ -9,13 +9,10 @@
 #define SERVO_SERVOA_HPP_
 #include "Servos.hpp"
 
-class ServoA
+class ServoA:public serovo
 {
 	TIM_HandleTypeDef *htim2;
-	long map(float x, long in_min, long in_max, long out_min, long out_max)//’l‚Ì”ÍˆÍ‚Ì•ÏŠ·ŠÖ”
-			{
-			  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-			}
+
 public:
 	ServoA(TIM_HandleTypeDef *_htim8):htim2(_htim8){}
 	void begin();

@@ -12,13 +12,13 @@ void MotorB::setDuty(float d)
 	if(d>=0)
 	{
 		__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_2,map(d,0,100,0,999));
-					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(direB_GPIO_Port,direB_Pin,GPIO_PIN_RESET);
 	}
 
 	else if(d<0)
 	{
 		__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_2,map(-d,0,100,0,999));
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(direB_GPIO_Port,direB_Pin,GPIO_PIN_SET);
 	}
 
 }
