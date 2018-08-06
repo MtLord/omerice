@@ -1,6 +1,5 @@
 /**
   ******************************************************************************
-
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
@@ -62,6 +61,8 @@ TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim8;
+TIM_HandleTypeDef htim10;
+TIM_HandleTypeDef htim11;
 TIM_HandleTypeDef htim12;
 
 UART_HandleTypeDef huart2;
@@ -89,6 +90,8 @@ static void MX_ADC1_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_TIM12_Init(void);
+static void MX_TIM10_Init(void);
+static void MX_TIM11_Init(void);
 
 
                                 
@@ -146,7 +149,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 							}
 #ifdef use_gyro_
-				if(htim->Instance == TIM6)//0.025はアウトプット周期
+				if(htim->Instance == TIM6)//0.0025はアウトプット周期
 					{
 					//printf("interrput!\n");
 						robot.gyro.vel=robot.gyro.getZvel();
@@ -158,6 +161,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 						}
 					}
 #endif
+				if(htim->Instance == TIM7)
+				{
+					//robot.m_a.mbreak();
+				}
 			}
 //extern "C" void initialise_monitor_handles(void);
 
@@ -196,7 +203,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  MX_CAN1_Init();
+//  MX_CAN1_Init();
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
@@ -208,13 +215,23 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   MX_TIM12_Init();
+  MX_TIM10_Init();
+  MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
 int i=0;
-//HAL_TIM_Base_Start_IT(&htim2);
- //HAL_TIM_Base_Start_IT(&htim3);
- //robot.gyro.gyro_init();
- //HAL_TIM_Base_Start_IT(&htim6);
-robot.servoa.begin();
+HAL_TIM_Base_Start_IT(&htim2);
+ HAL_TIM_Base_Start_IT(&htim3);
+ robot.gyro.gyro_init();
+ HAL_TIM_Base_Start_IT(&htim6);
+//robot.servoa.begin();
+robot.m_c.begin();
+robot.m_c.setDuty(-30);
+robot.m_a.begin();
+robot.m_b.begin();
+robot.m_a.setDuty(50);
+
+robot.m_b.setDuty(-30);
+//
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -224,16 +241,14 @@ robot.servoa.begin();
 
   /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
-	 robot.servoa.set_pulse(25);
-	  HAL_Delay(500);
-	 robot.servoa.set_pulse(50);
-	  HAL_Delay(500);
-	 robot.servoa.set_pulse(75);
-	  HAL_Delay(500);
-	  //printf("%d\n\r",i);
 
+
+
+  /* USER CODE BEGIN 3 */
+
+//printf("A%ld,B:%ld\n\r",robot.en_a.getcount(),robot.en_b.getcount());
 //printf("deg:%f\n\r",robot.gyro.Zdeg());
+
 }
 
   /* USER CODE END 3 */
@@ -646,9 +661,9 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 0;
+  htim7.Init.Prescaler = 1999;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 0;
+  htim7.Init.Period = 9999;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -672,9 +687,9 @@ static void MX_TIM8_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
   htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 15;
+  htim8.Init.Prescaler = 130;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 9999;
+  htim8.Init.Period = 12499;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   if (HAL_TIM_PWM_Init(&htim8) != HAL_OK)
@@ -719,6 +734,38 @@ static void MX_TIM8_Init(void)
   }
 
   HAL_TIM_MspPostInit(&htim8);
+
+}
+
+/* TIM10 init function */
+static void MX_TIM10_Init(void)
+{
+
+  htim10.Instance = TIM10;
+  htim10.Init.Prescaler = 0;
+  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim10.Init.Period = 0;
+  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+/* TIM11 init function */
+static void MX_TIM11_Init(void)
+{
+
+  htim11.Instance = TIM11;
+  htim11.Init.Prescaler = 0;
+  htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim11.Init.Period = 0;
+  htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim11) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
 }
 
@@ -810,7 +857,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, direE_Pin|direF_Pin|direC_Pin|direD_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14|GPIO_PIN_15|direE_Pin|direF_Pin 
+                          |direC_Pin|direD_Pin|GPIO_PIN_12, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, PS2_CS_Pin|direA_Pin|direB_Pin|GPIO_PIN_4 
@@ -828,8 +876,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : direE_Pin direF_Pin direC_Pin direD_Pin */
-  GPIO_InitStruct.Pin = direE_Pin|direF_Pin|direC_Pin|direD_Pin;
+  /*Configure GPIO pins : PC14 PC15 direE_Pin direF_Pin 
+                           direC_Pin direD_Pin PC12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15|direE_Pin|direF_Pin 
+                          |direC_Pin|direD_Pin|GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -855,12 +905,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(gyro_cs_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PC12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PD2 */
   GPIO_InitStruct.Pin = GPIO_PIN_2;
