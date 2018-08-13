@@ -5,7 +5,8 @@
  *
  */
 
-#include "L3G4200D.hpp"
+#include <gyro/L3GD20.hpp>
+ const float pi=3.141592;
 uint8_t Gyro::readByte(uint8_t reg )
 {
 	uint8_t address,val;
@@ -38,7 +39,24 @@ void Gyro::writeByte(uint8_t reg, uint8_t val)
 
 }
 
-float Gyro::Zdeg()
+float Gyro::Zrad()
 {
-	return deg;
+	return deg*pi/180;
+}
+
+
+void Gyro::outdegculc(float stdvalue)
+{
+	vel=getZvel();
+	if((vel<(average-stddev*stdvalue))||vel>(average+stddev*stdvalue))
+	{
+								deg+=(vel+prevel)*0.0025/2;
+								prevel=vel;
+								radvel=getZvel();
+	}
+}
+
+float Gyro::Zradvel()
+{
+	return radvel*pi/180;
 }

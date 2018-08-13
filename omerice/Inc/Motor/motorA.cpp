@@ -11,13 +11,13 @@ void MotorA::setDuty(float d)
 	if(d>=0)
 	{
 					HAL_GPIO_WritePin(direA_GPIO_Port,direA_Pin,GPIO_PIN_RESET);
-					__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(d,0,100,0,999));
+					__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_1,map(d,0,100,0,999));
 
 	}
 
 	else if(d<0)
 	{
-		__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(-d,0,100,0,999));
+		__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_1,map(-d,0,100,0,999));
 		HAL_GPIO_WritePin(direA_GPIO_Port,direA_Pin,GPIO_PIN_SET);
 	}
 
@@ -25,14 +25,14 @@ void MotorA::setDuty(float d)
 
 void MotorA::begin()
 {
-	HAL_TIM_PWM_Start(htim1,TIM_CHANNEL_1) ;       //HALの仕様
+	HAL_TIM_PWM_Start(Motorhandler,TIM_CHANNEL_1) ;       //HALの仕様
 			HAL_GPIO_WritePin(direA_GPIO_Port,direA_Pin,GPIO_PIN_RESET);
 
 }
 
 void MotorA::mbreak()
 {
-	__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(0,0,100,0,999));
+	__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_1,map(0,0,100,0,999));
 	HAL_GPIO_WritePin(direA_GPIO_Port,direA_Pin,GPIO_PIN_RESET);
 }
 /*

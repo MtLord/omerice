@@ -1,51 +1,51 @@
 /*
-f * MotorB.cpp
+ * MotorF.cpp
  *
- *  Created on: 2018/05/27
+ *  Created on: 2018/08/10
  *      Author: —T‘¿
  */
-#include "MotorB.hpp"
+#include "MotorF.hpp"
 
-void MotorB::setDuty(float d)
+void MotorF::setDuty(float d)
 {
 	//__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(d,0,100,0,999));
 	if(d>=0)
 	{
 		__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_2,map(d,0,100,0,999));
-					HAL_GPIO_WritePin(direB_GPIO_Port,direB_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(direF_GPIO_Port,direF_Pin,GPIO_PIN_RESET);
 	}
 
 	else if(d<0)
 	{
 		__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_2,map(-d,0,100,0,999));
-			HAL_GPIO_WritePin(direB_GPIO_Port,direB_Pin,GPIO_PIN_SET);
+			HAL_GPIO_WritePin(direF_GPIO_Port,direF_Pin,GPIO_PIN_SET);
 	}
 
 }
 
-void MotorB::begin()
+void MotorF::begin()
 {
 	if (HAL_TIM_PWM_Start(Motorhandler,TIM_CHANNEL_2) != HAL_OK)       //HAL‚ÌŽd—l
 			{
 			  Error_Handler();
 			}
-			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(direF_GPIO_Port,direF_Pin,GPIO_PIN_RESET);
 
 }
 
-void MotorB::mbreak()
+void MotorF::mbreak()
 {
 	__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_2,map(0,0,100,0,999));
-	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(direF_GPIO_Port,direF_Pin,GPIO_PIN_RESET);
 }
 /*
-void MotorB::stop()
+void MotorC::stop()
 {
-	__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_2,map(0,0,100,0,999));
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_RESET);
+	__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_3,map(0,0,100,0,999));
+		HAL_GPIO_WritePin(direC_GPIO_Port,direC_Pin,GPIO_PIN_RESET);
 }
 */
-void MotorB::setvelocity(float v)
+void MotorF::setvelocity(float v)
 {
 	this->setDuty(map(v,-max_rad,max_rad,-100,100));
 }

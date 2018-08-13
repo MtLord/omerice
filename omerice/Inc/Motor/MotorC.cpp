@@ -11,13 +11,13 @@ void MotorC::setDuty(float d)
 	//__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(d,0,100,0,999));
 	if(d>=0)
 	{
-		__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_3,map(d,0,100,0,999));
+		__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_3,map(d,0,100,0,999));
 					HAL_GPIO_WritePin(direC_GPIO_Port,direC_Pin,GPIO_PIN_RESET);
 	}
 
 	else if(d<0)
 	{
-		__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_3,map(-d,0,100,0,999));
+		__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_3,map(-d,0,100,0,999));
 			HAL_GPIO_WritePin(direC_GPIO_Port,direC_Pin,GPIO_PIN_SET);
 	}
 
@@ -25,7 +25,7 @@ void MotorC::setDuty(float d)
 
 void MotorC::begin()
 {
-	if (HAL_TIM_PWM_Start(htim1,TIM_CHANNEL_3) != HAL_OK)       //HALの仕様
+	if (HAL_TIM_PWM_Start(Motorhandler,TIM_CHANNEL_3) != HAL_OK)       //HALの仕様
 			{
 			  Error_Handler();
 			}
@@ -35,7 +35,7 @@ void MotorC::begin()
 
 void MotorC::mbreak()
 {
-	__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_3,map(0,0,100,0,999));
+	__HAL_TIM_SetCompare(Motorhandler,TIM_CHANNEL_3,map(0,0,100,0,999));
 	HAL_GPIO_WritePin(direC_GPIO_Port,direC_Pin,GPIO_PIN_RESET);
 }
 /*

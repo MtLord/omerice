@@ -14,14 +14,17 @@ class MotorA:public Motors
 {
 private:
 
-	TIM_HandleTypeDef *htim1;
+	TIM_HandleTypeDef *Motorhandler;
 public:
 	void setDuty(float d);
 	void setvelocity(float v);//角速度を入力するとdutyに変換してセットする
 	void begin();
 	void mbreak();//機体が止まって動かなくなる
 	//void stop();//disable
-	MotorA(TIM_HandleTypeDef *_htim1):htim1(_htim1){};
+	MotorA(TIM_HandleTypeDef *_htim1):Motorhandler(_htim1)
+	{
+		this->begin();
+	}
 	~MotorA(){
 		this->mbreak();
 	}

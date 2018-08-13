@@ -5,10 +5,10 @@
  *      Author: 鬮ｯ�ｽｬ陟�髮｣�ｽｽ�ｽｱ�ｿｽ�ｽｽ�ｽｰ
  */
 
-#ifndef GYRO_L3G4200D_HPP_
-#define GYRO_L3G4200D_HPP_
+#ifndef GYRO_L3GD20_HPP_
+#define GYRO_L3GD20_HPP_
+#include <gyro/L3GD20_definiton.h>
 #include "stm32f4xx_hal.h"
-#include "L3G4200D_definiton.h"
 #include "math.h"
 
 #define sample_rate 400
@@ -20,21 +20,26 @@ private:
 	float sample[sample_rate];
 	float hataverage=0;
 	int i;
+	float radvel=0;
 	uint8_t readByte(uint8_t reg );
 	void writeByte( uint8_t reg, uint8_t val );
-
+	float getZvel();
+	uint8_t ret;
+		 float vel;
+		 float prevel;
+		 float deg;
+		 float average;
+		 float stddev;
 public:
-	 uint8_t ret;
-	 float vel;
-	 float prevel;
-	 float deg;
-		float average;
-		float stddev;
+
+
 	void gyro_init()
 	{
 		ret = readByte( WHO_AM_I );
-		if(ret!=0xd3){
-			while(1){
+		if(ret!=0xd4)
+		{
+			while(1)
+			{
 				printf("gyro error:%x\n\r",ret);
 			}
 		}
@@ -54,12 +59,14 @@ public:
 				  }
 				  stddev=sqrt(hataverage-average*average);
 	}
-	float getZvel(  );
-	float Zdeg();
-	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)
-	{
 
-	}
+	float Zrad();
+	float Zradvel();//return z axis velocity
+
+
+	 void outdegculc(float stdvalue);
+	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)
+	{}
 };
 
-#endif /* GYRO_L3G4200D_HPP_ */
+#endif /* GYRO_L3GD20_HPP_ */

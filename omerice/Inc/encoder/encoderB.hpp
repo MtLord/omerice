@@ -23,14 +23,17 @@ public:
 	unsigned short over_count;
 	encoderB(TIM_HandleTypeDef *htim3,uint16_t stddev,float d):pulse(stddev*4),diameter(d)
 	{
-		over_count=1;
+		over_count+=1;
 		HAL_TIM_Encoder_Start(htim3, TIM_CHANNEL_ALL);
 		 TIM3->CNT=0;
+		 HAL_TIM_Base_Start_IT(htim3);
 	}
 	long getcount();
 	float getdistance();
 	float getangle();//読んだ時点での角度を返す 単位「rad」
 	float getvelocity();//角速度を返す
+
+	 void Increment();//overflow counter
 };
 
 

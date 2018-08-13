@@ -14,14 +14,17 @@
 class MotorC:public Motors
 {
 private:
-	TIM_HandleTypeDef *htim1;
+	TIM_HandleTypeDef *Motorhandler;
 public:
 	void setDuty(float d);
 	void setvelocity(float v);
 	void begin();
 	void mbreak();
 	//void stop();
-	MotorC(TIM_HandleTypeDef *_htim1):htim1(_htim1){};
+	MotorC(TIM_HandleTypeDef *_htim1):Motorhandler(_htim1)
+	{
+		this->begin();
+	};
 	~MotorC(){
 		mbreak();
 	}

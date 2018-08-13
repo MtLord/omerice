@@ -5,8 +5,8 @@
  *      Author: —T‘¿
  */
 
-#ifndef GYRO_L3G4200D_DEFINITON_H_
-#define GYRO_L3G4200D_DEFINITON_H_
+#ifndef GYRO_L3GD20_DEFINITON_H_
+#define GYRO_L3GD20_DEFINITON_H_
 
 /******address*************/
 #define WHO_AM_I 0x0F
@@ -25,4 +25,4 @@
 #define L3GD20_2000dps 0x20
 
 
-#endif /* GYRO_L3G4200D_DEFINITON_H_ */
+#endif /* GYRO_L3GD20_DEFINITON_H_ */
