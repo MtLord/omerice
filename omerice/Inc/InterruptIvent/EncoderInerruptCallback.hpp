@@ -10,12 +10,8 @@
 #include "encoder/encoderC.hpp"
 #include "encoder/encoderD.hpp"
 extern Robot *Robo;
-class enocerC_callback:public encoderC
-{
-public:
-	using encoderC::encoderC;
 
-	void InterruptIventCallback()
+	void encoderC::InterruptIventCallback()
 	{
 		/****************enocoderC callback function here*************************/
 
@@ -24,14 +20,9 @@ public:
 		/*****************************************************************/
 	}
 
-};
 
-class enocerD_callback:public encoderD
-{
-public:
-	using encoderD::encoderD;
 
-	void InterruptIventCallback()
+	void encoderD::InterruptIventCallback()
 	{
 		/****************enocoderD callback function here*************************/
 
@@ -47,7 +38,6 @@ public:
 
 	}
 
-};
 
 
 

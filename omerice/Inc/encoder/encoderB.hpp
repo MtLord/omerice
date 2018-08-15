@@ -15,12 +15,14 @@ private:
 	long count=0;
 	int cnt1=0;
 	int cnt2=0;
- float diameter;
-public:
+	float diameter;
 	uint16_t pulse;
-	unsigned short CNT=0;
-	unsigned long temp=0;
-	unsigned short over_count;
+ 	unsigned short CNT=0;
+ 	unsigned long temp=0;
+ 	unsigned short over_count;
+public:
+ 	int flag=0;
+
 	encoderB(TIM_HandleTypeDef *htim3,uint16_t stddev,float d):pulse(stddev*4),diameter(d)
 	{
 		over_count+=1;
@@ -34,6 +36,7 @@ public:
 	float getvelocity();//Šp‘¬“x‚ð•Ô‚·
 
 	 void Increment();//overflow counter
+
 };
 
 

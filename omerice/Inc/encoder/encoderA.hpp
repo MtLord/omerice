@@ -19,17 +19,17 @@ private:
 	int cnt2=0;
 	unsigned short CNT=0;
 	unsigned long temp=0;
-	int flag=0;
+	unsigned short over_count;
 	uint16_t pulse;
 	float diameter;
 
 public:
-	unsigned short over_count;
 
+	int flag=0;
 	encoderA(TIM_HandleTypeDef *_htim2,uint16_t stddev,float d):pulse(stddev*4),diameter(d)//encoderA(encoderhandle,pulse per return,revolutional diameter)
 	{
 		over_count=0;
-		HAL_TIM_Encoder_Start(_htim2, TIM_CHANNEL_ALL);
+		HAL_TIM_Encoder_Start_IT(_htim2, TIM_CHANNEL_ALL);
 		 TIM2->CNT=0;
 
 		 HAL_TIM_Base_Start_IT(_htim2);
@@ -40,6 +40,7 @@ public:
 	float getvelocity();//Šp‘¬“x‚ð•Ô‚·
 
 	volatile void Increment();//overflow counter
+
 };
 
 
