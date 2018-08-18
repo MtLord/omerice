@@ -165,7 +165,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  MX_CAN1_Init();
+  //MX_CAN1_Init();
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
@@ -202,7 +202,7 @@ Robo=&robot;
 
   /* USER CODE BEGIN 3 */
 
-printf("getcount:%ld interruptcunt:%d\n\r",robot.en_a.getcount(),flag);
+printf("getcount:%ld\n\r",robot.en_a.getcount());
 
 
 
@@ -485,7 +485,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 65535;
+  htim2.Init.Period = 4294967295;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
@@ -590,7 +590,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 0;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 65535;
+  htim5.Init.Period = 4294967295;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;

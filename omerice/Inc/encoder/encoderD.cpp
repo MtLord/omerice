@@ -5,16 +5,35 @@
  *      Author: —T‘¿
  */
 #include "encoderD.hpp"
+
+
+
+
 long encoderD::getcount()
 {
-	CNT=TIM5->CNT;
-	return CNT;
+
+	return TIM5->CNT-2147483647;
+
 }
 
-void encoderD::setcount(unsigned c)
+float encoderD::getangle()
 {
-	htim5->Init.Period=c;
+	return this->getcount()*2*pi/pulse;
 }
 
+float encoderD::getvelocity()
+{
+	cnt1=this->getangle();
+	HAL_Delay(sptim);
+	cnt2=this->getangle();
+	return (cnt2-cnt1)*1000/sptim;
+}
+
+
+double encoderD::getdistance()
+{
+	return ((double)this->getcount()*pi*diameter)/(double)pulse;
+
+}
 
 

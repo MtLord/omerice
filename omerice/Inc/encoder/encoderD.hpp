@@ -12,38 +12,29 @@
 class encoderD
 {
 private:
-
-	long count=0;
 	int cnt1=0;
 	int cnt2=0;
-	unsigned short CNT=0;
-	unsigned long temp=0;
 
 	uint16_t pulse;
 	float diameter;
-	TIM_HandleTypeDef *htim5;
+
 public:
 
 
-	encoderD(TIM_HandleTypeDef *_htim5,uint16_t stddev,float d):pulse(stddev*4),diameter(d),htim5(_htim5)
+	encoderD(TIM_HandleTypeDef *_htim5,uint16_t stddev,float d):pulse(stddev*4),diameter(d)//encoderA(encoderhandle,pulse per return,revolutional diameter)
 	{
-
 		HAL_TIM_Encoder_Start(_htim5, TIM_CHANNEL_ALL);
-		 TIM5->CNT=0;
+		TIM5->CNT=2147483647;
 
 	}
 	long getcount();
-	void setcount(unsigned int c);//interrupt count value
-	void InterruptIventCallback();
+	double getdistance();
+	float getangle();//return current angle「rad」
+	float getvelocity();//角速度を返す
 
-	 ~encoderD(){}
-	//float getdistance();
-	//float getangle();//return current angle「rad」
-	//float getvelocity();//角速度を返す
 
 
 };
-
 
 
 

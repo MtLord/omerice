@@ -1,11 +1,11 @@
 #include "encoderA.hpp"
 
-extern TIM_HandleTypeDef htim13;
+
 
 long encoderA::getcount()
 {
-	CNT=TIM2->CNT;
-	return temp|CNT;
+
+	return TIM2->CNT-2147483647;
 
 }
 
@@ -23,36 +23,10 @@ float encoderA::getvelocity()
 }
 
 
-float encoderA::getdistance()
+double encoderA::getdistance()
 {
-	return ((float)this->getcount()*pi*diameter)/(float)pulse;
+	return ((double)this->getcount()*pi*diameter)/(double)pulse;
 
 }
 
 
-volatile void encoderA::Increment()
-{
-
-if(flag==0)
-{
-
-						if((this->CNT)<32500&&this->CNT>=0)// この瞬間はアンダーフロー
-						{
-
-
-							over_count--;
-							temp=over_count<<16;//overcount�ｿｽﾍシ�ｿｽt�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
-							flag=1;
-
-						}
-						else if(this->CNT>32500&&this->CNT<=65535)
-						{
-
-							over_count++;
-							temp=over_count<<16;
-							flag=1;
-						}
-
-						HAL_TIM_Base_Start_IT(&htim13);
-}
-}
