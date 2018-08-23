@@ -23,16 +23,16 @@ private:
 	float radvel=0;
 	uint8_t readByte(uint8_t reg );
 	void writeByte( uint8_t reg, uint8_t val );
-	float getZvel();
+
 	uint8_t ret;
 		 float vel;
 		 float prevel;
-		 float deg;
+
 		 float average;
 		 float stddev;
 public:
-
-
+		 float deg;
+		 float getZvel();
 	void gyro_init()
 	{
 		ret = readByte( WHO_AM_I );
@@ -46,6 +46,7 @@ public:
 				writeByte(CTRL_REG2,CTRL_REG2_cmd);
 				writeByte( CTRL_REG4,L3GD20_2000dps );
 				writeByte( CTRL_REG1, CTRL_REG1_cmd );//outputrate
+				writeByte( CTRL_REG5, CTRL_REG5_cmd );//outputrate
 				 HAL_Delay(250);//郢昜ｻ｣ﾎ｡郢晢ｽｼ郢ｧ�ｽｪ郢晢ｽｳ邵ｺ荵晢ｽ会ｿｽ�ｽｿ�ｽｽ?邵ｺ貅倪�托ｿｽ�ｽｿ�ｽｽ?邵ｺ�ｽｨ�ｿｽ�ｽｿ�ｽｽ?邵ｺ莉｣竊托ｿｽ�ｽｿ�ｽｽ?
 				  for(i=0;i<sample_rate;i++)
 				  {

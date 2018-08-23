@@ -36,14 +36,16 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+#include <InterruptIvent/interrupt.hpp>
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN Includes */
 #include "Robot.hpp"
 #include "InterruptIvent/EncoderInerruptCallback.hpp"
-#include "InterruptIvent/interrupt.hpp"
 #include <iostream>
+#include "PS3/PS3class.hpp"
+#include "CAN/CAN.hpp"
 using namespace std;
 
 /* USER CODE END Includes */
@@ -75,6 +77,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+CAN_FilterTypeDef  sFilterConfig;
 
 /* USER CODE END PV */
 
@@ -123,12 +126,45 @@ void __io_putchar(uint8_t ch)
 }
 #endif
 
-
+//#define usecan
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
  Robot *Robo;
+ PS3controller *ps3;
+ void filterconfig()
+ {
 
+ 		 sFilterConfig.FilterIdHigh         = 0x0000;				//??��?��?��??��?��??��?��??��?��?��ｵ??��?��ID??��?��??��?��?��ｻ
+ 		   sFilterConfig.FilterIdLow          = 0x0000; //??��?��?��??��?��??��?��??��?��?��ｵ??��?��ID??��?��??��?��?��ｻ
+ 		   sFilterConfig.FilterMaskIdHigh     = 0x0000;			//??��?��??��?��??��?��?���??��?��?��?��?16??��?��?��??��??��?��??��?��?��??��?��??��?��?���??��???��?��??��???��?��
+ 		   sFilterConfig.FilterMaskIdLow      = 0x0000;			//??��?��??��?��??��?��?���??��?��?��?��?16??��?��?��??��??��?��??��?��?��??��?��??��?��?���??��???��?��??��???��?��
+ 		   sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;           //??��?��??��?��??��?��?���??��?��?��?��??��?��??��?��?��??��?��??��?��??��?��FIFO 0
+ 		   sFilterConfig.FilterBank=0;
+ 		   sFilterConfig.FilterScale=CAN_FILTERSCALE_16BIT;
+ 		   sFilterConfig.FilterMode=CAN_FILTERMODE_IDMASK;
+ 		   sFilterConfig.FilterActivation = ENABLE;          //??��?��?��??��??��?��?��??��?��??��?��?���???��?��
+ 		   sFilterConfig.SlaveStartFilterBank = 14;
+
+
+ 		      if(HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig)!=HAL_OK)
+ 		      	  {
+ 		     printf("filterconfigerror");
+ 		      	  }
+ 		   HAL_CAN_Start(&hcan1);
+
+ 		   HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);//??��?��??��?��??��??��?��???��?��?��??��?
+ }
+
+ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+ {
+   if(hcan->Instance==CAN1)
+   {
+    ps3->cannode->Receeive();
+   }
+
+
+ }
 
 /* USER CODE END 0 */
 
@@ -137,6 +173,7 @@ void __io_putchar(uint8_t ch)
   *
   * @retval None
   */
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -165,7 +202,9 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  //MX_CAN1_Init();
+#ifdef usecan
+  MX_CAN1_Init();
+#endif
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
@@ -185,10 +224,11 @@ int main(void)
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12);
 Robo=&robot;
 //game game(&robot);
-
-
-//robot.gyro.gyro_init();
-//HAL_TIM_Base_Start_IT(&htim6);
+//can_bus PS3_CAN(&hcan1);
+//PS3controller PS3(&PS3_CAN);
+//ps3=&PS3;
+robot.gyro.gyro_init();
+HAL_TIM_Base_Start_IT(&htim6);
 
 
   /* USER CODE END 2 */
@@ -202,11 +242,22 @@ Robo=&robot;
 
   /* USER CODE BEGIN 3 */
 
-printf("getcount:%ld\n\r",robot.en_a.getcount());
+//printf("getcount:%ld\n\r",robot.en_a.getcount());
+	  /*//
+robot.m_a.setDuty(30);
+robot.m_b.setDuty(30);
+robot.m_c.setDuty(30);
+HAL_Delay(500);
+robot.m_a.setDuty(-30);
+robot.m_b.setDuty(-30);
+robot.m_c.setDuty(-30);
+HAL_Delay(500);
+//*/
+//PS3.cannode->Receeive();
+//printf("maru:%d\n\r",PS3.MARU());
 
-
-
-
+	  //printf("gyrodeg:%f vel:%f\n\r",robot.gyro.deg,robot.gyro.getZvel());
+	  printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());
   }
 
   /* USER CODE END 3 */
@@ -355,7 +406,7 @@ static void MX_CAN1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
+  filterconfig();
 }
 
 /* SPI2 init function */

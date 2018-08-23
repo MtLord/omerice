@@ -23,6 +23,6 @@
 #define CTRL_REG2_cmd 0x01
 #define L3GD20_500dps 0x10
 #define L3GD20_2000dps 0x20
-
+#define CTRL_REG5_cmd 0x10
 
 #endif /* GYRO_L3GD20_DEFINITON_H_ */

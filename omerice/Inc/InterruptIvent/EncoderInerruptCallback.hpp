@@ -24,7 +24,7 @@ extern Robot *Robo;
 
 	void encoderB::InterruptIventCallback()
 	{
-		/****************enocoderD callback function here*************************/
+		/****************enocoderB callback function here*************************/
 
 
 
