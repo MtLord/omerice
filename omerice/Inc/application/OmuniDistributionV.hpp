@@ -24,6 +24,7 @@ public:
 			v2 = xdis * cos(PI+theta) + ydis * sin(PI+theta) + r*omega;
 			v3 = -xdis * cos(PI*2/3+theta) + ydis * sin(PI/3+theta) + r*omega;
 	}
+
 };
 
 

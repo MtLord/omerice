@@ -9,14 +9,14 @@
 #define GYRO_L3GD20_HPP_
 #include <gyro/L3GD20_definiton.h>
 #include "stm32f4xx_hal.h"
-#include "math.h"
 
-#define sample_rate 400
+#define sample_rate 500
+extern TIM_HandleTypeDef htim6;
 class Gyro
 {
 private:
-	SPI_HandleTypeDef *hspi3;
 
+	SPI_HandleTypeDef *hspi3;
 	float sample[sample_rate];
 	float hataverage=0;
 	int i;
@@ -30,44 +30,20 @@ private:
 
 		 float average;
 		 float stddev;
-public:
+		 void gyro_init();
 		 float deg;
 		 float getZvel();
-	void gyro_init()
-	{
-		ret = readByte( WHO_AM_I );
-		if(ret!=0xd4)
-		{
-			while(1)
-			{
-				printf("gyro error:%x\n\r",ret);
-			}
-		}
-				writeByte(CTRL_REG2,CTRL_REG2_cmd);
-				writeByte( CTRL_REG4,L3GD20_2000dps );
-				writeByte( CTRL_REG1, CTRL_REG1_cmd );//outputrate
-				writeByte( CTRL_REG5, CTRL_REG5_cmd );//outputrate
-				 HAL_Delay(250);//郢昜ｻ｣ﾎ｡郢晢ｽｼ郢ｧ�ｽｪ郢晢ｽｳ邵ｺ荵晢ｽ会ｿｽ�ｽｿ�ｽｽ?邵ｺ貅倪�托ｿｽ�ｽｿ�ｽｽ?邵ｺ�ｽｨ�ｿｽ�ｽｿ�ｽｽ?邵ｺ莉｣竊托ｿｽ�ｽｿ�ｽｽ?
-				  for(i=0;i<sample_rate;i++)
-				  {
-					sample[i]=getZvel();
-					HAL_Delay(2);
-				  }
-				  for(i=0;i<sample_rate;i++)
-				  {
-					  hataverage+=sample[i]*sample[i]/sample_rate;
-					  average+=sample[i]/sample_rate;
-				  }
-				  stddev=sqrt(hataverage-average*average);
-	}
-
+public:
 	float Zrad();
 	float Zradvel();//return z axis velocity
 
 
 	 void outdegculc(float stdvalue);
 	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)
-	{}
+	{
+		this->gyro_init();
+		HAL_TIM_Base_Start_IT(&htim6);
+	}
 };
 
 #endif /* GYRO_L3GD20_HPP_ */

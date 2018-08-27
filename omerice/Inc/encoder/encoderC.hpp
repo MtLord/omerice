@@ -23,14 +23,14 @@ private:
 	float diameter;
 	TIM_HandleTypeDef *htim4;
 public:
-
+	int flag=0;
 
 	encoderC(TIM_HandleTypeDef *_htim4,uint16_t stddev,float d):pulse(stddev*4),diameter(d),htim4(_htim4)
 	{
 
 		HAL_TIM_Encoder_Start(_htim4, TIM_CHANNEL_ALL);
-		 TIM4->CNT=0;
-
+		 TIM4->CNT=0x8000;
+		 HAL_TIM_Base_Start_IT(_htim4);
 	}
 	long getcount();
 	void setcount(unsigned int c);

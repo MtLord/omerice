@@ -6,6 +6,7 @@
  */
 
 #include <gyro/L3GD20.hpp>
+#include "math.h"
  const float pi=3.141592;
 uint8_t Gyro::readByte(uint8_t reg )
 {
@@ -60,3 +61,31 @@ float Gyro::Zradvel()
 {
 	return radvel*pi/180;
 }
+
+void Gyro::gyro_init()
+	{
+		ret = readByte( WHO_AM_I );
+		if(ret!=0xd4)
+		{
+			while(1)
+			{
+				printf("gyro error:%x\n\r",ret);
+			}
+		}
+				writeByte(CTRL_REG2,CTRL_REG2_cmd);
+				writeByte( CTRL_REG4,L3GD20_2000dps );
+				writeByte( CTRL_REG1, CTRL_REG1_cmd );//outputrate
+				writeByte( CTRL_REG5, CTRL_REG5_cmd );//outputrate
+				 HAL_Delay(250);//郢昜ｻ｣ﾎ｡郢晢ｽｼ郢ｧ�ｽｪ郢晢ｽｳ邵ｺ荵晢ｽ会ｿｽ�ｽｿ�ｽｽ?邵ｺ貅倪�托ｿｽ�ｽｿ�ｽｽ?邵ｺ�ｽｨ�ｿｽ�ｽｿ�ｽｽ?邵ｺ莉｣竊托ｿｽ�ｽｿ�ｽｽ?
+				  for(i=0;i<sample_rate;i++)
+				  {
+					sample[i]=getZvel();
+					HAL_Delay(2);
+				  }
+				  for(i=0;i<sample_rate;i++)
+				  {
+					  hataverage+=sample[i]*sample[i]/sample_rate;
+					  average+=sample[i]/sample_rate;
+				  }
+				  stddev=sqrt(hataverage-average*average);
+	}

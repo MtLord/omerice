@@ -22,17 +22,17 @@ private:
 public:
 
 
-	encoderA(TIM_HandleTypeDef *_htim2,uint16_t stddev,float d):pulse(stddev*4),diameter(d)//encoderA(encoderhandle,pulse per return,revolutional diameter)
+	encoderA(TIM_HandleTypeDef *_htim2,uint16_t stddev):pulse(stddev*4)//encoderA(encoderhandle,pulse per return)
 	{
 		HAL_TIM_Encoder_Start(_htim2, TIM_CHANNEL_ALL);
 		TIM2->CNT=2147483647;
-
+		this->Setdiameter(4.8);
 	}
 	long getcount();
 	double getdistance();
 	float getangle();//return current angleuradv
 	float getvelocity();//Šp‘¬“x‚ğ•Ô‚·
-
+	void  Setdiameter(float d);
 
 
 };

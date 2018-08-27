@@ -29,4 +29,8 @@ double encoderA::getdistance()
 
 }
 
+void encoderA::Setdiameter(float d)
+{
+	diameter=d;
+}
 

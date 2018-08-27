@@ -3,5 +3,6 @@ encoding//Inc/CAN/CAN.cpp=UTF-8
 encoding//Inc/InterruptIvent/interrupt.hpp=UTF-8
 encoding//Inc/encoder/encoderA.cpp=UTF-8
 encoding//Inc/encoder/encoderB.cpp=UTF-8
+encoding//Inc/gyro/L3GD20.cpp=UTF-8
 encoding//Inc/gyro/L3GD20.hpp=UTF-8
 encoding//Src/main.cpp=UTF-8

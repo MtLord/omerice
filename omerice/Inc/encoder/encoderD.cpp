@@ -36,4 +36,8 @@ double encoderD::getdistance()
 
 }
 
+void encoderD::Setdiameter(float d)
+{
+	diameter=d;
+}
 

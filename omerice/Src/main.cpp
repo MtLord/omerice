@@ -46,6 +46,8 @@
 #include <iostream>
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
+#include "application/excuteApplication.hpp"
+#include "InterruptIvent/TimerInterruptCallback.hpp"
 using namespace std;
 
 /* USER CODE END Includes */
@@ -127,11 +129,18 @@ void __io_putchar(uint8_t ch)
 #endif
 
 //#define usecan
+
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
  Robot *Robo;
  PS3controller *ps3;
+ TimerInterrupt1 *int1;
+ TimerInterrupt2 *int2;
+ TimerInterrupt3 *int3;
+ TimerInterrupt4 *int4;
+ TimerInterrupt5 *int5;
  void filterconfig()
  {
 
@@ -175,6 +184,8 @@ void __io_putchar(uint8_t ch)
   */
 
 int main(void)
+
+
 {
   /* USER CODE BEGIN 1 */
 
@@ -223,14 +234,26 @@ int main(void)
   /* USER CODE BEGIN 2 */
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12);
 Robo=&robot;
-//game game(&robot);
 //can_bus PS3_CAN(&hcan1);
 //PS3controller PS3(&PS3_CAN);
 //ps3=&PS3;
-robot.gyro.gyro_init();
-HAL_TIM_Base_Start_IT(&htim6);
+TimerInterrupt1 hint1(&htim7);
+ TimerInterrupt2 hint2(&htim10);
+ TimerInterrupt3 hint3(&htim11);
+ TimerInterrupt4 hint4(&htim13);
+ TimerInterrupt5 hint5(&htim14);
+ int1=&hint1;
+ int2=&hint2;
+ int3=&hint3;
+ int4=&hint4;
+ int5=&hint5;
+//game game(&robot);
 
 
+
+
+//HAL_TIM_Base_Start_IT(&htim7);
+excution excu;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -241,23 +264,23 @@ HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+	  excu.excuteapplication();
 //printf("getcount:%ld\n\r",robot.en_a.getcount());
 	  /*//
 robot.m_a.setDuty(30);
 robot.m_b.setDuty(30);
 robot.m_c.setDuty(30);
 HAL_Delay(500);
-robot.m_a.setDuty(-30);
-robot.m_b.setDuty(-30);
-robot.m_c.setDuty(-30);
+//robot.m_a.setDuty(-30);
+//robot.m_b.setDuty(-30);
+//robot.m_c.setDuty(-30);
 HAL_Delay(500);
 //*/
 //PS3.cannode->Receeive();
 //printf("maru:%d\n\r",PS3.MARU());
 
 	  //printf("gyrodeg:%f vel:%f\n\r",robot.gyro.deg,robot.gyro.getZvel());
-	  printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());
+	  //printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());
   }
 
   /* USER CODE END 3 */
@@ -697,9 +720,9 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 0;
+  htim7.Init.Prescaler = 999;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 0;
+  htim7.Init.Period = 9999;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
