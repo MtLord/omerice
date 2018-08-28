@@ -264,6 +264,7 @@ excution excu;
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+
 	  excu.excuteapplication();
 //printf("getcount:%ld\n\r",robot.en_a.getcount());
 	  /*//

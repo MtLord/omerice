@@ -36,7 +36,7 @@ void Gyro::writeByte(uint8_t reg, uint8_t val)
 
   float Gyro::getZvel(  ){
 	  signed short ret= (readByte(OUT_Z_H)<<8 | readByte(OUT_Z_L)) ;
-	return (float)ret*0.070;
+	return -(float)ret*0.070;
 
 }
 
