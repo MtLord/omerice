@@ -44,12 +44,21 @@ public:
 		return GYRO->Zrad();
 	}
 	//virtual ~localization();
-	void Setshitf_X(float x){
+	void Setshitf_X(float x)//機体中心からのズレを記述
+	{
 		ShiftX=x;
 	}
 	void Setshift_y(float y){
 		ShiftY=y;
 	}
+
+	void Setdiameter(float d)
+	{
+		enA->Setdiameter(d);
+		enD->Setdiameter(d);
+	}
+
+
 };
 
 
