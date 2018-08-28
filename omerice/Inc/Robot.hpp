@@ -54,6 +54,7 @@ public:
 			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8)
 	{
 
+		loca=new localization(&en_a,&en_d,&gyro);
 	}
 
 };

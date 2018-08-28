@@ -248,7 +248,7 @@ TimerInterrupt1 hint1(&htim7);
  int4=&hint4;
  int5=&hint5;
 //game game(&robot);
-
+robot.loca->GetX();
 
 
 
