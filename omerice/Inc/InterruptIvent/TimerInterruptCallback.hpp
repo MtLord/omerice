@@ -2,30 +2,52 @@
 #ifndef __TIMERINTERRUPTCALLBACK__
 #define __TIMERINTERRUPTCALLBACK__
 #include "stm32f4xx_hal.h"
-
+#include "application/excuteApplication.hpp"
 //if you use different interrupt cycle,you set interrupt cycle  each other
 class TimerInterrupt1
 {
 private:
-
+	float period=0.001;//Š„‚èž‚ÝŽüŠú
+	unsigned short counterperiod;
+	unsigned short Prescaler=0;
+	float ajustperiod;
+	excution excu;
 public:
 	TimerInterrupt1(TIM_HandleTypeDef *timhandle)
 	{
 		/**************initialization******************/
-		timhandle->Init.Period=3000;
-		timhandle->Init.Prescaler=89;
+		while(ajustperiod!=period)
+		{
+			Prescaler++;
+		for(counterperiod=0;counterperiod<65535;counterperiod++)
+		{
+			ajustperiod=((float)Prescaler*(float)(counterperiod+1))/40000000;
+			if(ajustperiod==period)
+			{
+				break;
+			}
+		}
+		}
+		timhandle->Init.Prescaler=Prescaler-1;
+		timhandle->Init.Period=counterperiod;
 
 		/***********************************************/
 	}
-	void TIMinterrupt(){
+	void TIMinterrupt()
+	{
 		/*****interrupt ivent here*************/
-
-
-
+		static int t;
+		if(t<1000){
+		excu.excuteapplication();
+		}
+		t++;
 
 		/*****************************************/
 	}
-
+	void Setperiod(float p)
+	{
+		period=p;
+	}
 };
 
 class TimerInterrupt2

@@ -1,0 +1,20 @@
+/*
+ * SensorClass.hpp
+ *
+ *  Created on: 2018/08/29
+ *      Author: —T‘¿
+ */
+
+#ifndef SENSORDATA_SENSORCLASS_HPP_
+#define SENSORDATA_SENSORCLASS_HPP_
+#include "ADC/ADCclass.hpp"
+class sensor
+{
+public:
+	long sensor1();
+};
+
+
+
+
+#endif /* SENSORDATA_SENSORCLASS_HPP_ */

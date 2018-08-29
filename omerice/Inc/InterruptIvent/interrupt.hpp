@@ -36,7 +36,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				}
 				if(htim->Instance==TIM7)
 				{
-					//excu.excuteapplication();
+
 					int1->TIMinterrupt();
 				}
 				if(htim->Instance==TIM10)

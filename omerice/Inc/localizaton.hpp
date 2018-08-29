@@ -25,22 +25,25 @@ class localization
 
 
 public:
-	localization(encoderA *enA,encoderD *enD,Gyro *gyro):enA(enA),enD(enD),GYRO(gyro)
-	{
 
+	void begin(encoderA *A,encoderD *D,Gyro *gyro)
+	{
+		this->enA=A;
+		this->enD=D;
+		this->GYRO=gyro;
 	}
-	virtual double GetX()
+	 double GetX()
 	{
 		return -1*enA->getdistance()-ShiftY*sin(GYRO->Zrad())-ShiftX*cos(GYRO->Zrad())+ShiftX;
 	}
-	virtual double GetY()
+	 double GetY()
 	{
 		return enD->getdistance()+ShiftX*sin(GYRO->Zrad())+ShiftY*cos(GYRO->Zrad());
 	}
-	virtual float GetZvel(){
+	 float GetZvel(){
 		return GYRO->Zradvel();
 	}
-	virtual float GetYaw(){
+	 float GetYaw(){
 		return GYRO->Zrad();
 	}
 	//virtual ~localization();

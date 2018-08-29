@@ -46,7 +46,7 @@
 #include <iostream>
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
-//#include "application/excuteApplication.hpp"
+#include "application/excuteApplication.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 using namespace std;
 
@@ -128,7 +128,7 @@ void __io_putchar(uint8_t ch)
 }
 #endif
 
-//#define usecan
+#define usecan
 
 
 /* USER CODE END PFP */
@@ -234,9 +234,15 @@ int main(void)
   /* USER CODE BEGIN 2 */
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12);
 Robo=&robot;
-//can_bus PS3_CAN(&hcan1);
-//PS3controller PS3(&PS3_CAN);
-//ps3=&PS3;
+
+
+
+
+
+
+can_bus PS3_CAN(&hcan1);
+PS3controller PS3(&PS3_CAN);
+ps3=&PS3;
 TimerInterrupt1 hint1(&htim7);
  TimerInterrupt2 hint2(&htim10);
  TimerInterrupt3 hint3(&htim11);
@@ -247,13 +253,8 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
-//game game(&robot);
-robot.loca->GetX();
+HAL_TIM_Base_Start_IT(&htim7);
 
-
-
-//HAL_TIM_Base_Start_IT(&htim7);
-excution excu;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -265,7 +266,7 @@ excution excu;
 
   /* USER CODE BEGIN 3 */
 
-	  excu.excuteapplication();
+
 //printf("getcount:%ld\n\r",robot.en_a.getcount());
 	  /*//
 robot.m_a.setDuty(30);
@@ -278,7 +279,7 @@ HAL_Delay(500);
 HAL_Delay(500);
 //*/
 //PS3.cannode->Receeive();
-//printf("maru:%d\n\r",PS3.MARU());
+printf("maru:%d\n\r",PS3.MARU());
 
 	  //printf("gyrodeg:%f vel:%f\n\r",robot.gyro.deg,robot.gyro.getZvel());
 	  //printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());

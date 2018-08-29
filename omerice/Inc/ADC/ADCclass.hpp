@@ -13,8 +13,8 @@ class adc
 {
 private:
 	//const unsigned int ADCbuffer=4;
-	enum{ ADC_BUFFER_LENGTH = 2 };
-	uint16_t g_ADCBuffer[ADC_BUFFER_LENGTH];
+	enum{ ADC_BUFFER_LENGTH = 4 };
+	uint32_t g_ADCBuffer[ADC_BUFFER_LENGTH];
 public:
 	adc(ADC_HandleTypeDef *adc_dma)
 	{
