@@ -242,7 +242,7 @@ int main(void)
   MX_TIM13_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
-Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12);
+Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&hadc1);
 Robo=&robot;
 
 

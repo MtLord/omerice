@@ -28,6 +28,7 @@
 #include "Aircylinder/aircylinder3.hpp"
 #include "Aircylinder/aircylinder4.hpp"
 #include "Aircylinder/aircylinder5.hpp"
+#include "adconvert/adc_class.hpp"
 /****************************************/
 class Robot
 {
@@ -43,7 +44,7 @@ public:
 	encoderB en_b;
 	encoderC en_c;
 	localization loca;
-
+	Sensor sensor;
 	air1 Air1;
 	air2 Air2;
 	air3 Air3;
@@ -61,9 +62,10 @@ public:
 	Gyro gyro;
 
 	Robot(SPI_HandleTypeDef *_hspi2,SPI_HandleTypeDef *_hspi3,TIM_HandleTypeDef *_htim1,
-			TIM_HandleTypeDef *_htim2,TIM_HandleTypeDef *_htim3,TIM_HandleTypeDef *_htim4,TIM_HandleTypeDef *_htim5,TIM_HandleTypeDef *htim8,TIM_HandleTypeDef *_htim12)
+			TIM_HandleTypeDef *_htim2,TIM_HandleTypeDef *_htim3,TIM_HandleTypeDef *_htim4,TIM_HandleTypeDef *_htim5,TIM_HandleTypeDef *htim8,TIM_HandleTypeDef *_htim12,
+			ADC_HandleTypeDef *_adchadndle)
 			:en_a(_htim2,1024),en_b(_htim3,500,4.8),en_c(_htim4,500,4.8),en_d(_htim5,1024),m_a(_htim1),m_b(_htim1),m_c(_htim1),m_d(_htim1),m_e(_htim12),m_f(_htim12),
-			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8)
+			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8),sensor(_adchadndle)
 	{
 		loca.begin(&en_a,&en_d,&gyro);
 

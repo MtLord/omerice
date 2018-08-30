@@ -7,7 +7,7 @@
 
 #ifndef SENSORDATA_SENSORCLASS_HPP_
 #define SENSORDATA_SENSORCLASS_HPP_
-#include "ADC/ADCclass.hpp"
+#include <adc/ADCclass.hpp>
 
 
 

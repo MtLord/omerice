@@ -14,18 +14,19 @@ class convert
 {
 protected:
 	//const unsigned int ADCbuffer=4;
-	const int ADC_BUFFER_LENGTH = 4 ;
-	uint32_t g_ADCBuffer[ADC_BUFFER_LENGTH];
+	//const int ADC_BUFFER_LENGTH = 4 ;
+	enum{ ADC_BUFFER_LENGTH = 4};
+	uint16_t g_ADCBuffer[ADC_BUFFER_LENGTH];
 public:
 
 	convert(ADC_HandleTypeDef *adc_dma)
 	{
-		HAL_ADC_Start_DMA(adc_dma, (uint32_t)g_ADCBuffer,ADC_BUFFER_LENGTH);
+		HAL_ADC_Start_DMA(adc_dma, (uint32_t *)g_ADCBuffer,ADC_BUFFER_LENGTH);
 	}
 
 };
 
-class sensor:public convert
+class Sensor:public convert
 {
 
 public:
