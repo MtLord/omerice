@@ -28,12 +28,15 @@ private:
 		 float vel;
 		 float prevel;
 
-		 float average;
-		 float stddev;
+
 		 void gyro_init();
-		 float deg;
-		 float getZvel();
+
+
 public:
+		 float average;
+				 float stddev;
+		 float getZvel();
+		 float deg;
 	float Zrad();
 	float Zradvel();//return z axis velocity
 

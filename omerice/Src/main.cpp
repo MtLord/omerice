@@ -46,7 +46,7 @@
 #include <iostream>
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
-#include "application/excuteApplication.hpp"
+//#include "application/excuteApplication.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 using namespace std;
 
@@ -128,7 +128,7 @@ void __io_putchar(uint8_t ch)
 }
 #endif
 
-#define usecan
+//#define usecan
 
 
 /* USER CODE END PFP */
@@ -158,7 +158,7 @@ void __io_putchar(uint8_t ch)
 
  		      if(HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig)!=HAL_OK)
  		      	  {
- 		     printf("filterconfigerror");
+ 		     printf("filterconfigerror\n\r");
  		      	  }
  		   HAL_CAN_Start(&hcan1);
 
@@ -169,12 +169,20 @@ void __io_putchar(uint8_t ch)
  {
    if(hcan->Instance==CAN1)
    {
-    ps3->cannode->Receeive();
+	   printf("interrupt\n\r");
+	   ps3->cannode->Receeive();
    }
 
 
  }
-
+ void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
+ {
+   if(hcan->Instance==CAN1)
+   {
+	   printf("interrupt\n\r");
+	   ps3->cannode->Receeive();
+   }
+ }
 /* USER CODE END 0 */
 
 /**
@@ -184,6 +192,7 @@ void __io_putchar(uint8_t ch)
   */
 
 int main(void)
+
 
 
 {
@@ -215,6 +224,7 @@ int main(void)
   MX_TIM1_Init();
 #ifdef usecan
   MX_CAN1_Init();
+  HAL_Delay(100);
 #endif
   MX_TIM8_Init();
   MX_SPI2_Init();
@@ -240,9 +250,9 @@ Robo=&robot;
 
 
 
-can_bus PS3_CAN(&hcan1);
-PS3controller PS3(&PS3_CAN);
-ps3=&PS3;
+//can_bus PS3_CAN(&hcan1);
+//PS3controller PS3(&PS3_CAN);
+//ps3=&PS3;
 TimerInterrupt1 hint1(&htim7);
  TimerInterrupt2 hint2(&htim10);
  TimerInterrupt3 hint3(&htim11);
@@ -253,8 +263,8 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
-HAL_TIM_Base_Start_IT(&htim7);
-
+//HAL_TIM_Base_Start_IT(&htim7);
+ //excution excu;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -266,8 +276,11 @@ HAL_TIM_Base_Start_IT(&htim7);
 
   /* USER CODE BEGIN 3 */
 
+	 //excu.excuteapplication();
 
+//ps3->cannode->Sendreqest();
 //printf("getcount:%ld\n\r",robot.en_a.getcount());
+
 	  /*//
 robot.m_a.setDuty(30);
 robot.m_b.setDuty(30);
@@ -279,9 +292,9 @@ HAL_Delay(500);
 HAL_Delay(500);
 //*/
 //PS3.cannode->Receeive();
-printf("maru:%d\n\r",PS3.MARU());
+//printf("maru:%d\n\r",PS3.MARU());
 
-	  //printf("gyrodeg:%f vel:%f\n\r",robot.gyro.deg,robot.gyro.getZvel());
+	  //printf("gyrorad:%f vel:%f stddev:%f avel:%f\n\r",robot.gyro.deg,robot.gyro.Zradvel(),robot.gyro.stddev,robot.gyro.average);
 	  //printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());
   }
 
@@ -419,7 +432,7 @@ static void MX_CAN1_Init(void)
   hcan1.Init.Prescaler = 16;
   hcan1.Init.Mode = CAN_MODE_NORMAL;
   hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
+  hcan1.Init.TimeSeg1 = CAN_BS1_3TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_1TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
   hcan1.Init.AutoBusOff = DISABLE;
@@ -431,6 +444,7 @@ static void MX_CAN1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
+
   filterconfig();
 }
 
@@ -901,7 +915,7 @@ static void MX_USART2_UART_Init(void)
 {
 
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;

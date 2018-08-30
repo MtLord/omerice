@@ -32,11 +32,14 @@ void Gyro::writeByte(uint8_t reg, uint8_t val)
 	HAL_SPI_Transmit( hspi3, &val,1,10 );
 
 	HAL_GPIO_WritePin( gyro_cs_GPIO_Port,gyro_cs_Pin, GPIO_PIN_SET );
+
+
+
 }
 
   float Gyro::getZvel(  ){
 	  signed short ret= (readByte(OUT_Z_H)<<8 | readByte(OUT_Z_L)) ;
-	return -(float)ret*0.070;
+	return (float)ret*0.01750;
 
 }
 
@@ -72,10 +75,10 @@ void Gyro::gyro_init()
 				printf("gyro error:%x\n\r",ret);
 			}
 		}
-				writeByte(CTRL_REG2,CTRL_REG2_cmd);
-				writeByte( CTRL_REG4,L3GD20_2000dps );
+				//writeByte(CTRL_REG2,CTRL_REG2_cmd);
+				writeByte( CTRL_REG4,L3GD20_500dps );
 				writeByte( CTRL_REG1, CTRL_REG1_cmd );//outputrate
-				writeByte( CTRL_REG5, CTRL_REG5_cmd );//outputrate
+				//writeByte( CTRL_REG5, CTRL_REG5_cmd );//outputrate
 				 HAL_Delay(250);//郢昜ｻ｣ﾎ｡郢晢ｽｼ郢ｧ�ｽｪ郢晢ｽｳ邵ｺ荵晢ｽ会ｿｽ�ｽｿ�ｽｽ?邵ｺ貅倪�托ｿｽ�ｽｿ�ｽｽ?邵ｺ�ｽｨ�ｿｽ�ｽｿ�ｽｽ?邵ｺ莉｣竊托ｿｽ�ｽｿ�ｽｽ?
 				  for(i=0;i<sample_rate;i++)
 				  {

@@ -15,7 +15,7 @@ private:
 public:
 	can_bus *cannode;
 	PS3controller(can_bus *ps3):cannode(ps3){}
-	inline uint8_t SELECT(){return ((cannode->Data[0]>>0)&0x01);}// セレクトボタン
+			inline uint8_t SELECT(){return ((cannode->Data[0]>>0)&0x01);}// セレクトボタン
 			inline uint8_t L3(){return((cannode->Data[0]>>1)&0x01);}// L3ボタン
 			inline uint8_t R3(){return((cannode->Data[0]>>2)&0x01);}
 			inline uint8_t START(){return((cannode->Data[0]>>3)&0x01);}

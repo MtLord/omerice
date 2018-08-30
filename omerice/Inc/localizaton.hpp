@@ -56,6 +56,8 @@ public:
 	}
 
 	void Setdiameter(float d)
+
+
 	{
 		enA->Setdiameter(d);
 		enD->Setdiameter(d);

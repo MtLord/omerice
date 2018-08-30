@@ -24,7 +24,7 @@ void filterconfig();
 	{
 
 	}
-	virtual void Sendreqest()
+	 void Sendreqest()
 	{
 		 	  TxMessage1.DLC=1;
 			  TxMessage1.ExtId=0x00000073;
@@ -35,11 +35,11 @@ void filterconfig();
 
 			   if(HAL_CAN_AddTxMessage(canhandle,&TxMessage1,TR_BUF,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
 			  {
-
+				   printf("Txerror");
 			  }
 	}
 	//virtual void Transmit();
-	virtual void Receeive()
+	 void Receeive()
 	{
 
 		HAL_CAN_GetRxMessage(canhandle,CAN_RX_FIFO0,&RxMessage1,this->Data);
@@ -49,7 +49,7 @@ void filterconfig();
 
 
 
-	virtual ~can_bus(){}
+	 ~can_bus(){}
 };
 
 

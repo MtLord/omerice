@@ -11,7 +11,7 @@ private:
 	unsigned short counterperiod;
 	unsigned short Prescaler=0;
 	float ajustperiod;
-	excution excu;
+
 public:
 	TimerInterrupt1(TIM_HandleTypeDef *timhandle)
 	{
@@ -36,11 +36,9 @@ public:
 	void TIMinterrupt()
 	{
 		/*****interrupt ivent here*************/
-		static int t;
-		if(t<1000){
-		excu.excuteapplication();
-		}
-		t++;
+
+
+
 
 		/*****************************************/
 	}

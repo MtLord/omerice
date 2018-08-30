@@ -8,11 +8,7 @@
 #ifndef SENSORDATA_SENSORCLASS_HPP_
 #define SENSORDATA_SENSORCLASS_HPP_
 #include "ADC/ADCclass.hpp"
-class sensor
-{
-public:
-	long sensor1();
-};
+
 
 
 
