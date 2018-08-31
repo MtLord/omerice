@@ -36,7 +36,6 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include <InterruptIvent/interrupt.hpp>
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
@@ -128,7 +127,7 @@ void __io_putchar(uint8_t ch)
 }
 #endif
 
-//#define usecan
+#define usecan
 
 
 /* USER CODE END PFP */
@@ -144,15 +143,15 @@ void __io_putchar(uint8_t ch)
  void filterconfig()
  {
 
- 		 sFilterConfig.FilterIdHigh         = 0x0000;				//??��?��?��??��?��??��?��??��?��?��ｵ??��?��ID??��?��??��?��?��ｻ
- 		   sFilterConfig.FilterIdLow          = 0x0000; //??��?��?��??��?��??��?��??��?��?��ｵ??��?��ID??��?��??��?��?��ｻ
- 		   sFilterConfig.FilterMaskIdHigh     = 0x0000;			//??��?��??��?��??��?��?���??��?��?��?��?16??��?��?��??��??��?��??��?��?��??��?��??��?��?���??��???��?��??��???��?��
- 		   sFilterConfig.FilterMaskIdLow      = 0x0000;			//??��?��??��?��??��?��?���??��?��?��?��?16??��?��?��??��??��?��??��?��?��??��?��??��?��?���??��???��?��??��???��?��
- 		   sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;           //??��?��??��?��??��?��?���??��?��?��?��??��?��??��?��?��??��?��??��?��??��?��FIFO 0
+ 		 sFilterConfig.FilterIdHigh         = 0x0000;				//???��?��??��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��??��?��ID???��?��??��?��???��?��??��?��??��?��?��
+ 		   sFilterConfig.FilterIdLow          = 0x0000; //???��?��??��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��??��?��ID???��?��??��?��???��?��??��?��??��?��?��
+ 		   sFilterConfig.FilterMaskIdHigh     = 0x0000;			//???��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��??��?��??��?��??��?��?16???��?��??��?��??��?��???��?��???��?��??��?��???��?��??��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��????��?��??��?��???��?��????��?��??��?��
+ 		   sFilterConfig.FilterMaskIdLow      = 0x0000;			//???��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��??��?��??��?��??��?��?16???��?��??��?��??��?��???��?��???��?��??��?��???��?��??��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��????��?��??��?��???��?��????��?��??��?��
+ 		   sFilterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;           //???��?��??��?��???��?��??��?��???��?��??��?��??��?��?��???��?��??��?��??��?��??��?��???��?��??��?��???��?��??��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��FIFO 0
  		   sFilterConfig.FilterBank=0;
  		   sFilterConfig.FilterScale=CAN_FILTERSCALE_16BIT;
  		   sFilterConfig.FilterMode=CAN_FILTERMODE_IDMASK;
- 		   sFilterConfig.FilterActivation = ENABLE;          //??��?��?��??��??��?��?��??��?��??��?��?���???��?��
+ 		   sFilterConfig.FilterActivation = ENABLE;          //???��?��??��?��??��?��???��?��???��?��??��?��??��?��???��?��??��?��???��?��??��?��??��?��?��????��?��??��?��
  		   sFilterConfig.SlaveStartFilterBank = 14;
 
 
@@ -162,14 +161,14 @@ void __io_putchar(uint8_t ch)
  		      	  }
  		   HAL_CAN_Start(&hcan1);
 
- 		   HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);//??��?��??��?��??��??��?��???��?��?��??��?
+ 		   HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);//???��?��??��?��???��?��??��?��???��?��???��?��??��?��????��?��??��?��??��?��???��?��?
  }
 
  void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
  {
    if(hcan->Instance==CAN1)
    {
-	   printf("interrupt\n\r");
+	   //printf("interrupt\n\r");
 	   ps3->cannode->Receeive();
    }
 
@@ -179,7 +178,7 @@ void __io_putchar(uint8_t ch)
  {
    if(hcan->Instance==CAN1)
    {
-	   printf("interrupt\n\r");
+	   //printf("interrupt\n\r");
 	   ps3->cannode->Receeive();
    }
  }
@@ -190,11 +189,7 @@ void __io_putchar(uint8_t ch)
   *
   * @retval None
   */
-
 int main(void)
-
-
-
 {
   /* USER CODE BEGIN 1 */
 
@@ -222,10 +217,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-#ifdef usecan
   MX_CAN1_Init();
-  HAL_Delay(100);
-#endif
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
@@ -250,9 +242,9 @@ Robo=&robot;
 
 
 
-//can_bus PS3_CAN(&hcan1);
-//PS3controller PS3(&PS3_CAN);
-//ps3=&PS3;
+can_bus PS3_CAN(&hcan1);
+PS3controller PS3(&PS3_CAN);
+ps3=&PS3;
 TimerInterrupt1 hint1(&htim7);
  TimerInterrupt2 hint2(&htim10);
  TimerInterrupt3 hint3(&htim11);
@@ -278,7 +270,7 @@ TimerInterrupt1 hint1(&htim7);
 
 	 //excu.excuteapplication();
 
-//ps3->cannode->Sendreqest();
+
 //printf("getcount:%ld\n\r",robot.en_a.getcount());
 
 	  /*//
@@ -291,8 +283,9 @@ HAL_Delay(500);
 //robot.m_c.setDuty(-30);
 HAL_Delay(500);
 //*/
-//PS3.cannode->Receeive();
-//printf("maru:%d\n\r",PS3.MARU());
+	  //ps3->cannode->Sendreqest();
+	  //PS3.cannode->Receeive();
+	  //printf("maru:%d\n\r",PS3.MARU());
 
 	  //printf("gyrorad:%f vel:%f stddev:%f avel:%f\n\r",robot.gyro.deg,robot.gyro.Zradvel(),robot.gyro.stddev,robot.gyro.average);
 	  //printf("encodera:%ld encoderd:%ld\n\r",robot.en_a.getcount(),robot.en_d.getcount());
@@ -377,7 +370,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 4;
+  hadc1.Init.NbrOfConversion = 3;
   hadc1.Init.DMAContinuousRequests = DISABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -406,17 +399,8 @@ static void MX_ADC1_Init(void)
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
-  sConfig.Channel = ADC_CHANNEL_13;
-  sConfig.Rank = 3;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
-    */
   sConfig.Channel = ADC_CHANNEL_4;
-  sConfig.Rank = 4;
+  sConfig.Rank = 3;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -432,7 +416,7 @@ static void MX_CAN1_Init(void)
   hcan1.Init.Prescaler = 16;
   hcan1.Init.Mode = CAN_MODE_NORMAL;
   hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan1.Init.TimeSeg1 = CAN_BS1_3TQ;
+  hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_1TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
   hcan1.Init.AutoBusOff = DISABLE;
@@ -444,7 +428,6 @@ static void MX_CAN1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
   filterconfig();
 }
 
@@ -736,9 +719,9 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 999;
+  htim7.Init.Prescaler = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 9999;
+  htim7.Init.Period = 0;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -992,6 +975,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PC3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PS2_CS_Pin */
   GPIO_InitStruct.Pin = PS2_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -1021,6 +1010,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 

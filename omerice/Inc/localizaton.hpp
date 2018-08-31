@@ -62,7 +62,11 @@ public:
 		enA->Setdiameter(d);
 		enD->Setdiameter(d);
 	}
-
+	void Setpulse(float P)
+	{
+		enA->Setpulse(P);
+		enD->Setpulse(P);
+	}
 
 };
 

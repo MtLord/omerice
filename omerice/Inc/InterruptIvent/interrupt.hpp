@@ -64,4 +64,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 					Robo->gyro.outdegculc(2.5);
 					}
 			}
+	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+	{
+		if(GPIO_Pin==GPIO_PIN_3)
+		{
+			Robo->sensor.interrupter();
+		}
+	}
 #endif

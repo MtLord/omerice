@@ -40,7 +40,7 @@ public:
 	long sensor3(){
 		return g_ADCBuffer[2];
 	}
-	long interrupter();
+	void interrupter();
 };
 
 

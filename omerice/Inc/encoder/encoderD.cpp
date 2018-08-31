@@ -40,4 +40,7 @@ void encoderD::Setdiameter(float d)
 {
 	diameter=d;
 }
-
+void encoderD::Setpulse(float p)
+{
+	pulse=p;
+}

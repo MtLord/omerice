@@ -43,8 +43,8 @@ void filterconfig();
 	{
 
 		HAL_CAN_GetRxMessage(canhandle,CAN_RX_FIFO0,&RxMessage1,this->Data);
-		  printf("data[0]:%d data[1]:%d data[2]:%d data[3]:%d data[4]:%d data[5]:%d data[6]:%d data[7]:%d\n\r",Data[0],Data[1],Data[2],
-		       		 Data[3],Data[4],Data[5],Data[6],Data[7]);
+		 // printf("data[0]:%d data[1]:%d data[2]:%d data[3]:%d data[4]:%d data[5]:%d data[6]:%d data[7]:%d\n\r",Data[0],Data[1],Data[2],
+		       		 //Data[3],Data[4],Data[5],Data[6],Data[7]);
 	}
 
 
