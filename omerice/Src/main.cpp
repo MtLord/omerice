@@ -235,7 +235,7 @@ int main(void)
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&hadc1);
 Robo=&robot;
 
-//state phase=state::CASE_WAIT;
+state phase=state::CASE_WAIT;
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
 PS3controller PS3(&PS3_CAN);
@@ -252,7 +252,7 @@ TimerInterrupt1 hint1(&htim7);
  int4=&hint4;
  int5=&hint5;
 //HAL_TIM_Base_Start_IT(&htim7);
-
+ Application app;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -263,9 +263,41 @@ TimerInterrupt1 hint1(&htim7);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  for(int i=0;i<200;i++)
+	  {
+		  HAL_Delay(10);
+		  switch(phase)
+		  {
+		  case state::CASE_WAIT:
+			  if(app.BuleButton()==1)
+			  {
+				  phase=state::gogachiasariokiba;
+			  }
+			  break;
+		  case state::gogachiasariokiba:
+			  app.gogachiasariokiba(i);
+			  if(robot.loca.GetX()==99.4&&robot.loca.GetY()==200)
+			  {
+				  phase=state::gogachiasari;
+			  }
+			  break;
+		  case state::gogachiasari:
+			  app.gogachiasariokiba(i);
+			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
+			  {
+				  phase=state::gogoalarea;
+			  }
+			  break;
+		  case state::gogoalarea:
+			  app.gogoalarea(i);
+			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
+			  			  {
+			  				 robot.Air1.Open();
+			  			  }
+			  			  break;
+		  }
 
-
-
+	  }
 
 
 
