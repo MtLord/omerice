@@ -9,7 +9,6 @@
 #include "stm32f4xx_hal.h"
 #include "Robot.hpp"
 #include "TimerInterruptCallback.hpp"
-//#include "application/excuteApplication.hpp"
 extern  Robot *Robo;
 extern TimerInterrupt1 *int1;
 extern TimerInterrupt2 *int2;
