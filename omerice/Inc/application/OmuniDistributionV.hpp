@@ -11,7 +11,7 @@
 class DistributeSpeed
 {
 private:
-	const double PI=3.14159265358979323846464338;
+	const double PI=3.14159265358979323846264338;
 	float r;
 public:
 	float v1;

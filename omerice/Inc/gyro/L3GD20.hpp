@@ -30,16 +30,16 @@ private:
 
 
 		 void gyro_init();
-
+		 float average;
+		float stddev;
+		float getZvel();
+		float deg;
 
 public:
-		 float average;
-				 float stddev;
-		 float getZvel();
-		 float deg;
+
 	float Zrad();
 	float Zradvel();//return z axis velocity
-
+	void Monitorvalue();
 
 	 void outdegculc(float stdvalue);
 	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)

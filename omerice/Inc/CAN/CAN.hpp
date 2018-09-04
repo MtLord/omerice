@@ -19,7 +19,7 @@ private:
 	CAN_FilterTypeDef  sFilterConfig;
 public:
 void filterconfig();
-	uint8_t Data[8];
+	uint8_t Data[8]={0x00,0x00,0x80,0x80,0x80,0x80,0x00,0x00};
 	can_bus(CAN_HandleTypeDef *_hcan):canhandle(_hcan)
 	{
 
@@ -35,7 +35,7 @@ void filterconfig();
 
 			   if(HAL_CAN_AddTxMessage(canhandle,&TxMessage1,TR_BUF,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
 			  {
-				   printf("Txerror");
+				   printf("Txerror\n\r");
 			  }
 	}
 	//virtual void Transmit();
@@ -46,9 +46,6 @@ void filterconfig();
 		 // printf("data[0]:%d data[1]:%d data[2]:%d data[3]:%d data[4]:%d data[5]:%d data[6]:%d data[7]:%d\n\r",Data[0],Data[1],Data[2],
 		       		 //Data[3],Data[4],Data[5],Data[6],Data[7]);
 	}
-
-
-
 	 ~can_bus(){}
 };
 

@@ -92,3 +92,7 @@ void Gyro::gyro_init()
 				  }
 				  stddev=sqrt(hataverage-average*average);
 	}
+void Gyro::Monitorvalue()
+{
+	printf("gyrorad:%f vel:%f stddev:%f avel:%f\n\r",this->deg,Zradvel(),stddev,average);
+}

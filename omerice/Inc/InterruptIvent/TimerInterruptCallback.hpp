@@ -2,7 +2,7 @@
 #ifndef __TIMERINTERRUPTCALLBACK__
 #define __TIMERINTERRUPTCALLBACK__
 #include "stm32f4xx_hal.h"
-#include "application/excuteApplication.hpp"
+//#include "application/excuteApplication.hpp"
 //if you use different interrupt cycle,you set interrupt cycle  each other
 class TimerInterrupt1
 {

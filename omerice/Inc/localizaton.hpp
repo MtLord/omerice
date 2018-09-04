@@ -67,7 +67,13 @@ public:
 		enA->Setpulse(P);
 		enD->Setpulse(P);
 	}
-
+	void printcount()
+	{
+		printf("encodera:%ld encoderd:%ld\n\r",enA->getcount(),enD->getcount());
+	}
+	void printdistance(){
+		printf("GetX:%lf GetY:%lf",enA->getdistance(),enD->getdistance());
+	}
 };
 
 
