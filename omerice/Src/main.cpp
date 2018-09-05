@@ -47,6 +47,7 @@
 #include "CAN/CAN.hpp"
 #include "application/excuteApplication.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
+#include "InterruptIvent/interrupt.hpp"
 using namespace std;
 
 /* USER CODE END Includes */
@@ -239,6 +240,7 @@ Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&had
 Robo=&robot;
 
 state phase=state::CASE_WAIT;
+int state=0;
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
 PS3controller PS3(&PS3_CAN);
@@ -276,7 +278,7 @@ TimerInterrupt1 hint1(&htim7);
 		  switch(phase)
 		  {
 		  case state::CASE_WAIT:
-			  if(app->BuleButton()==1)
+			  if(app->BuleButton()==0)
 			  {
 				  phase=state::gogachiasariokiba;
 			  }
@@ -297,8 +299,10 @@ TimerInterrupt1 hint1(&htim7);
 			  break;
 		  case state::gogoalarea:
 			  app->gogoalarea(i);
-			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
-			  			  {
+			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275){
+				  robot.Air1.Open();
+			  }
+
 
 		  }
 
@@ -306,9 +310,10 @@ TimerInterrupt1 hint1(&htim7);
 
 /*/
 
-//app->Debug();
-	 robot.loca.printdistance();
-	  //robot.gyro.Monitorvalue();
+	  //app->Debug();
+	// robot.loca.printdistance();
+	 // robot.gyro.Monitorvalue();
+	 // printf("deg:%f vel:%f int:%d\n\r",robot.gyro.deg,robot.gyro.Zradvel(),flag);
 	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
 	  //printf("Acount:%d Dcount%d\n\r",robot.en_a.getcount(),robot.en_d.getcount());
 //ps3->cannode->Receeive();
@@ -317,6 +322,38 @@ TimerInterrupt1 hint1(&htim7);
 
 //ps3->cannode->Sendreqest();
 
+	  switch(state)
+	 		  {
+	 		  case 0:
+/*
+	 			  if(app->BuleButton()==0)
+	 			  {
+	 				 state=1;
+	 			  }*/
+	 			 state=1;
+	 			  break;
+	 		  case 1:
+	 			  app->Debug1();
+	 			  if(robot.en_d.getdistance()>=73&&app->game.dist.v1<5&&app->game.dist.v3<5)
+	 			  {
+	 				 state=2;
+	 			  }
+	 			  break;
+	 		  case 2:
+	 			  app->Debug2();
+	 			  if(robot.en_a.getdistance()>=59&&app->game.dist.v2<5)
+	 			  {
+	 				 state=3;
+	 			  }
+	 			  break;
+	 		  case 3:
+	 			  app->Debug3();
+	 			  if(robot.loca.GetY()>=200){
+
+	 			  }
+
+
+	 		  }
 
 
 
@@ -324,15 +361,15 @@ TimerInterrupt1 hint1(&htim7);
 
 
 
-	  /*//
-robot.m_a.setDuty(30);
-robot.m_b.setDuty(30);
-robot.m_c.setDuty(30);
-HAL_Delay(500);
+
+//robot.m_a.setDuty(30);
+//robot.m_b.setDuty(30);
+//robot.m_c.setDuty(30);
+//HAL_Delay(500);
 //robot.m_a.setDuty(-30);
 //robot.m_b.setDuty(-30);
 //robot.m_c.setDuty(-30);
-HAL_Delay(500);
+//HAL_Delay(500);
 //*/
 
 

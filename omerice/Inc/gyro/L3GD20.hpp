@@ -33,10 +33,10 @@ int flag=0;
 		 float average;
 		float stddev;
 		float getZvel();
-		float deg;
+
 
 public:
-
+		float deg;
 	float Zrad();
 	float Zradvel();//return z axis velocity
 	void Monitorvalue();
@@ -45,7 +45,7 @@ public:
 	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)
 	{
 		this->gyro_init();
-		//HAL_TIM_Base_Start_IT(&htim6);
+		HAL_TIM_Base_Start_IT(&htim6);
 	}
 };
 

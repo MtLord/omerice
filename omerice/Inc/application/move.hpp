@@ -12,11 +12,12 @@
 class move
 {
 private:
-    int i=4;
-	DistributeSpeed dist;
+
+
 
 public:
 	move():dist(16){}
+	DistributeSpeed dist;
 		pid PIDx;
 		pid PIDy;
 		pid PIDomega;
