@@ -131,6 +131,7 @@ void __io_putchar(uint8_t ch)
 
 /* USER CODE BEGIN 0 */
 //#define useps3
+
  Robot *Robo;
  PS3controller *ps3;
  TimerInterrupt1 *int1;
@@ -215,7 +216,9 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
+#ifdef useps3
   MX_CAN1_Init();
+#endif
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
@@ -266,6 +269,7 @@ TimerInterrupt1 hint1(&htim7);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  /*//
 	  for(int i=0;i<200;i++)
 	  {
 		  HAL_Delay(10);
@@ -295,21 +299,23 @@ TimerInterrupt1 hint1(&htim7);
 			  app->gogoalarea(i);
 			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
 			  			  {
-			  				 robot.Air1.Open();
-			  			  }
-			  			  break;
+
 		  }
 
 	  }
 
+/*/
 
+//app->Debug();
+	 robot.loca.printdistance();
+	  //robot.gyro.Monitorvalue();
+	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
+	  //printf("Acount:%d Dcount%d\n\r",robot.en_a.getcount(),robot.en_d.getcount());
+//ps3->cannode->Receeive();
 
+//printf("maru:%d\n\r",PS3.DOWN());
 
-
-
-
-
-
+//ps3->cannode->Sendreqest();
 
 
 
@@ -329,7 +335,7 @@ HAL_Delay(500);
 HAL_Delay(500);
 //*/
 
-	  //printf("maru:%d\n\r",PS3.MARU());
+
   }
 
   /* USER CODE END 3 */
@@ -460,7 +466,7 @@ static void MX_CAN1_Init(void)
   hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_3TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
-  hcan1.Init.AutoBusOff = ENABLE;
+  hcan1.Init.AutoBusOff = DISABLE;
   hcan1.Init.AutoWakeUp = DISABLE;
   hcan1.Init.AutoRetransmission = DISABLE;
   hcan1.Init.ReceiveFifoLocked = DISABLE;

@@ -13,15 +13,21 @@
 
 extern  Robot *Robo;
 extern  PS3controller *ps3;
+void Application::Debug()
+{
+	 game.PIDtheta.set_gain(0.4,0,0);
+		 game.PIDx.set_gain(5,0,0);
+		 game.PIDy.set_gain(5,0,0);
+
+		 game.GOPosition(0,0,PI/2);
+}
 void Application::gogachiasariokiba(int i)
 {
 	float t=i/200;
 	 game.PIDtheta.set_gain(0.7,0,0);
 	 game.PIDx.set_gain(0.7,0,0);
 	 game.PIDy.set_gain(0.7,0,0);
-
-	// game.GOPosition(0,0,0);
-		game.GOPosition(bezierPX.bezier3(22.5,23,99.4,99.4,t),bezierPY.bezier3(22.5,89,60,200,t),0);
+	 game.GOPosition(bezierPX.bezier3(22.5,23,99.4,99.4,t),bezierPY.bezier3(22.5,89,60,200,t),0);
 
 }
 void Application::gogachiasari(int i)

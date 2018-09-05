@@ -16,19 +16,12 @@ private:
 	DistributeSpeed dist;
 
 public:
-	move():dist(16)
-	{
-
-	}
+	move():dist(16){}
 		pid PIDx;
 		pid PIDy;
 		pid PIDomega;
 		pid PIDtheta;
 	void GOPosition(float x,float y,float yaw); //(point_x,point_y,angular velocity)
-
-
-
-
 
 };
 

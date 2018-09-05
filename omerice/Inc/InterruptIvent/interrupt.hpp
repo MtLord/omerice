@@ -61,7 +61,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 				if(htim->Instance == TIM6)//0.025�ｿｽﾍア�ｿｽE�ｿｽg�ｿｽv�ｿｽb�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
 					{
-					Robo->gyro.outdegculc(2.5);
+					Robo->gyro.outdegculc(1);
 					}
 			}
 	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)

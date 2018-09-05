@@ -51,6 +51,7 @@ float Gyro::Zrad()
 
 void Gyro::outdegculc(float stdvalue)
 {
+	flag++;
 	vel=getZvel();
 	if((vel<(average-stddev*stdvalue))||vel>(average+stddev*stdvalue))
 	{
@@ -94,5 +95,5 @@ void Gyro::gyro_init()
 	}
 void Gyro::Monitorvalue()
 {
-	printf("gyrorad:%f vel:%f stddev:%f avel:%f\n\r",this->deg,Zradvel(),stddev,average);
+	printf("gyrodeg:%f vel:%f stddev:%f avel:%f int:%d\n\r",this->deg,this->getZvel(),stddev,average,flag);
 }

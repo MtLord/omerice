@@ -15,7 +15,7 @@ extern TIM_HandleTypeDef htim6;
 class Gyro
 {
 private:
-
+int flag=0;
 	SPI_HandleTypeDef *hspi3;
 	float sample[sample_rate];
 	float hataverage=0;
@@ -45,7 +45,7 @@ public:
 	Gyro(SPI_HandleTypeDef *_hspi3):hspi3(_hspi3),deg(0)
 	{
 		this->gyro_init();
-		HAL_TIM_Base_Start_IT(&htim6);
+		//HAL_TIM_Base_Start_IT(&htim6);
 	}
 };
 

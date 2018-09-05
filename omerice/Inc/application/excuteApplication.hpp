@@ -25,6 +25,7 @@ protected:
 
 public:
 	 Application();
+	 void Debug();
 	 virtual ~Application(){}
 	 int BuleButton();
 	 virtual void manualcontrol();

@@ -72,7 +72,7 @@ public:
 		printf("encodera:%ld encoderd:%ld\n\r",enA->getcount(),enD->getcount());
 	}
 	void printdistance(){
-		printf("GetX:%lf GetY:%lf",enA->getdistance(),enD->getdistance());
+		printf("GetX:%f GetY:%f\n\r",enA->getdistance(),enD->getdistance());
 	}
 };
 

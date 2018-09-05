@@ -32,7 +32,7 @@ float encoderD::getvelocity()
 
 double encoderD::getdistance()
 {
-	return ((double)this->getcount()*pi*diameter)/(double)pulse;
+	return ((double)this->getcount()*pi*diameter)/((double)pulse*4);
 
 }
 
