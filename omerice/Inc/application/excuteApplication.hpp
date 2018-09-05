@@ -12,6 +12,7 @@
 #include "app_y/bezier.hpp"
 class Application
 {
+protected:
 	const float PI=3.14159265;
 	move game;
 	 float t=0;
@@ -24,12 +25,24 @@ class Application
 
 public:
 	 Application();
+	 virtual ~Application(){}
 	 int BuleButton();
-	 void manualcontrol();
-	  void gogachiasariokiba(int i);
-	  void gogachiasari(int i);
-	  void gogoalarea(int i);
+	 virtual void manualcontrol();
+	 virtual void gogachiasariokiba(int i);
+	 virtual void gogachiasari(int i);
+	 virtual void gogoalarea(int i);
 };
+
+class ApplicationBlue:public Application //bluezon
+{
+public:
+	using Application::Application;
+	virtual ~ApplicationBlue(){}
+	 virtual void gogachiasariokiba(int i);
+	 virtual void gogachiasari(int i);
+	 virtual void gogoalarea(int i);
+};
+
 
 enum class state:unsigned int
 {

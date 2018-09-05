@@ -64,5 +64,28 @@ int Application::BuleButton()
 	return HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_13);
 }
 
-//13 3
+void ApplicationBlue::gogachiasariokiba(int i)
+{
+	float t=i/200;
+		 game.PIDtheta.set_gain(0,0,0);
+		 game.PIDx.set_gain(0,0,0);
+		 game.PIDy.set_gain(0,0,0);
+			game.GOPosition(bezierPX.bezier3(22.5,23,99.4,99.4,t),bezierPY.bezier3(22.5,89,60,200,t),0);
+}
+void ApplicationBlue::gogachiasari(int i)
+{
+	float t=i/200;
+			 game.PIDtheta.set_gain(0,0,0);
+			 game.PIDx.set_gain(0,0,0);
+			 game.PIDy.set_gain(0,0,0);
+			game.GOPosition(bezierPX.bezier3(99.4,30,30,110,t),bezierPY.bezier3(200,200,300,275,t),-PI/2);
+}
 
+void ApplicationBlue::gogoalarea(int i)
+{
+	float t=i/200;
+			 game.PIDtheta.set_gain(0,0,0);
+			 game.PIDx.set_gain(0,0,0);
+			 game.PIDy.set_gain(0,0,0);
+				game.GOPosition(bezierPX.bezier3(87.5,0,7.5,101.3,t),bezierPY.bezier3(275,275,200,174.5,t),0);
+}

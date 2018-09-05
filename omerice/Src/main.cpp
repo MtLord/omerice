@@ -252,7 +252,10 @@ TimerInterrupt1 hint1(&htim7);
  int4=&hint4;
  int5=&hint5;
 //HAL_TIM_Base_Start_IT(&htim7);
- Application app;
+ Application redzon;
+ ApplicationBlue bluezon;
+ Application *app=&redzon;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -269,27 +272,27 @@ TimerInterrupt1 hint1(&htim7);
 		  switch(phase)
 		  {
 		  case state::CASE_WAIT:
-			  if(app.BuleButton()==1)
+			  if(app->BuleButton()==1)
 			  {
 				  phase=state::gogachiasariokiba;
 			  }
 			  break;
 		  case state::gogachiasariokiba:
-			  app.gogachiasariokiba(i);
+			  app->gogachiasariokiba(i);
 			  if(robot.loca.GetX()==99.4&&robot.loca.GetY()==200)
 			  {
 				  phase=state::gogachiasari;
 			  }
 			  break;
 		  case state::gogachiasari:
-			  app.gogachiasariokiba(i);
+			  app->gogachiasariokiba(i);
 			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
 			  {
 				  phase=state::gogoalarea;
 			  }
 			  break;
 		  case state::gogoalarea:
-			  app.gogoalarea(i);
+			  app->gogoalarea(i);
 			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
 			  			  {
 			  				 robot.Air1.Open();
