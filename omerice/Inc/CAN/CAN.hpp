@@ -27,11 +27,11 @@ void filterconfig();
 	 void Sendreqest()
 	{
 		 	  TxMessage1.DLC=1;
-			  TxMessage1.ExtId=0x00000073;
-			  TxMessage1.IDE=CAN_ID_EXT;
+			  TxMessage1.StdId=0x73;
+			  TxMessage1.IDE=CAN_ID_STD;
 			  TxMessage1.RTR=CAN_RTR_DATA;
 
-			uint8_t TR_BUF[1]={0x42};
+			uint8_t TR_BUF[1]={0x42,};
 
 			   if(HAL_CAN_AddTxMessage(canhandle,&TxMessage1,TR_BUF,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
 			  {

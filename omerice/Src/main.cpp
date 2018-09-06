@@ -130,6 +130,7 @@ void __io_putchar(uint8_t ch)
 
 /* USER CODE BEGIN 0 */
 //#define useps3
+ CAN_TxHeaderTypeDef   TxMessage1;
  Robot *Robo;
  PS3controller *ps3;
  TimerInterrupt1 *int1;
@@ -158,7 +159,7 @@ void __io_putchar(uint8_t ch)
  		      	  }
  		   HAL_CAN_Start(&hcan1);
 
- 		   HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);//????��?��??��?��???��?��??��?��????��?��??��?��???��?��??��?��????��?��??��?��????��?��??��?��???��?��??��?��?????��?��??��?��???��?��??��?��???��?��??��?��????��?��??��?��?
+ 		   HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING);
  }
 
  void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
@@ -179,6 +180,7 @@ void __io_putchar(uint8_t ch)
 	   ps3->cannode->Receeive();
    }
  }
+
 /* USER CODE END 0 */
 
 /**
@@ -216,6 +218,7 @@ int main(void)
   MX_TIM1_Init();
 #ifdef useps3
   MX_CAN1_Init();
+  HAL_Delay(100);
 #endif
   MX_TIM8_Init();
   MX_SPI2_Init();
@@ -294,8 +297,10 @@ HAL_Delay(500);
 //robot.m_c.setDuty(-30);
 HAL_Delay(500);
 //*/
-
+	  //PS3.cannode->Receeive();
 	  //printf("maru:%d\n\r",PS3.MARU());
+	  //Sendreqest();
+	  //PS3.cannode->Sendreqest();
   }
 
   /* USER CODE END 3 */

@@ -12,33 +12,53 @@
 #include "encoder/encoderA.hpp"
 #include "encoder/encoderD.hpp"
 #include "gyro/L3GD20.hpp"
+#include "math.h"
 
-
+#define Xencoder 0
+#define Yencoder 1
 class localization
 {
+	float radias;
 	float ShiftY;
 	float ShiftX;
+	float initX;
+	float initY;
+	float delta=0;
+	Gyro *GYRO;
 	encoderA *enA;
 	encoderD *enD;
-	Gyro *GYRO;
-
-
-
+	 double point[2]={0,0};
 public:
 
 	void begin(encoderA *A,encoderD *D,Gyro *gyro)
 	{
+		radias=2.4;
 		this->enA=A;
 		this->enD=D;
 		this->GYRO=gyro;
 	}
+	void integralcount()
+	{
+		double dist[2]={enA->getdistance(),enD->getdistance()};
+		static double b_dist[2]={0,0};
+
+		static double hensa[2];
+		hensa[Xencoder]=dist[Xencoder]-b_dist[Xencoder];
+		hensa[1]=dist[Yencoder]-b_dist[Yencoder];
+		point[Xencoder]+=(hensa[Xencoder]*cos(GYRO->Zrad())-hensa[Yencoder]*sin(GYRO->Zrad()))*radias;
+		point[Yencoder]+=(hensa[Yencoder]*cos(GYRO->Zrad())+hensa[Xencoder]*sin(GYRO->Zrad()))*radias;
+		b_dist[Xencoder]=dist[Xencoder];
+		b_dist[Yencoder]=dist[Yencoder];
+	}
 	 double GetX()
 	{
-		return -1*enA->getdistance()-ShiftY*sin(GYRO->Zrad())-ShiftX*cos(GYRO->Zrad())+ShiftX;
+		return initX+cos(GYRO->Zrad())*(cos(delta)*(point[Xencoder]-ShiftX)-sin(delta)*(point[Yencoder]-ShiftY))
+				-sin(GYRO->Zrad())*(sin(delta)*(point[Xencoder]-ShiftX)+cos(delta)*(point[Yencoder]-ShiftY));
 	}
 	 double GetY()
 	{
-		return enD->getdistance()+ShiftX*sin(GYRO->Zrad())+ShiftY*cos(GYRO->Zrad());
+		return initY+sin(GYRO->Zrad())*(cos(delta)*(point[Xencoder]-ShiftX)-sin(delta)*(point[Yencoder]-ShiftY))
+				+cos(GYRO->Zrad())*(sin(delta)*(point[Xencoder]-ShiftX)+cos(delta)*(point[Yencoder]-ShiftY));
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -56,8 +76,6 @@ public:
 	}
 
 	void Setdiameter(float d)
-
-
 	{
 		enA->Setdiameter(d);
 		enD->Setdiameter(d);
@@ -66,6 +84,11 @@ public:
 	{
 		enA->Setpulse(P);
 		enD->Setpulse(P);
+	}
+	void Setinitposition(float x,float y)
+	{
+		initX=x;
+		initY=y;
 	}
 	void printcount()
 	{
