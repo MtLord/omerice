@@ -46,6 +46,7 @@
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
+#include "InterruptIvent/interrupt.hpp"
 using namespace std;
 
 /* USER CODE END Includes */
@@ -255,6 +256,7 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
+ robot.gyro.gyro_init();
 //HAL_TIM_Base_Start_IT(&htim7);
 
   /* USER CODE END 2 */

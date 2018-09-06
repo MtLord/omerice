@@ -23,7 +23,7 @@ class localization
 	float ShiftX;
 	float initX;
 	float initY;
-	float delta=0;
+	float delta=-pi/4;
 	Gyro *GYRO;
 	encoderA *enA;
 	encoderD *enD;

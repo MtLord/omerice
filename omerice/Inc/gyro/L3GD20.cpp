@@ -8,6 +8,7 @@
 #include <gyro/L3GD20.hpp>
 #include "math.h"
  const float pi=3.141592;
+ extern TIM_HandleTypeDef htim6;
 uint8_t Gyro::readByte(uint8_t reg )
 {
 	uint8_t address,val;
@@ -91,6 +92,7 @@ void Gyro::gyro_init()
 					  average+=sample[i]/sample_rate;
 				  }
 				  stddev=sqrt(hataverage-average*average);
+				  HAL_TIM_Base_Start_IT(&htim6);
 	}
 void Gyro::Monitorvalue()
 {
