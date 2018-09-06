@@ -13,25 +13,13 @@
 
 extern  Robot *Robo;
 extern  PS3controller *ps3;
-void Application::Debug1()
+void Application::Debug()
 {
-	 game.PIDtheta.set_gain(0.7,0.002,0);
-		 game.PIDx.set_gain(0.5,0.005,0);
-		 game.PIDy.set_gain(0.5,0.005,0);
-		 game.GOPosition(0,76,0);
+	 game.PIDtheta.set_gain(0.4,0,0);
+		 game.PIDx.set_gain(5,0,0);
+		 game.PIDy.set_gain(5,0,0);
 
-}
-void Application::Debug2(){
-	 game.PIDtheta.set_gain(0.7,0,0);
-			 game.PIDx.set_gain(0.4,0.0005,0);
-			 game.PIDy.set_gain(0.4,0.0005,0);
-			 game.GOPosition(60,76,0);
-}
-void Application::Debug3(){
-	 game.PIDtheta.set_gain(0.7,0,0);
-				 game.PIDx.set_gain(0.3,0.01,0);
-				 game.PIDy.set_gain(0.3,0.01,0);
-				 game.GOPosition(60,190,0);
+		 game.GOPosition(0,0,PI/2);
 }
 void Application::gogachiasariokiba(int i)
 {

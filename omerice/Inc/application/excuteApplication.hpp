@@ -14,7 +14,7 @@ class Application
 {
 protected:
 	const float PI=3.14159265;
-
+	move game;
 	 float t=0;
 	 bezier bezierPX;
 	 bezier bezierPY;
@@ -24,11 +24,8 @@ protected:
 	 	}
 
 public:
-	 move game;
 	 Application();
-	 void Debug1();
-	 void Debug2();
-	 void Debug3();
+	 void Debug();
 	 virtual ~Application(){}
 	 int BuleButton();
 	 virtual void manualcontrol();
@@ -54,9 +51,7 @@ enum class state:unsigned int
 	gogachiasariokiba,
 	gogachiasari,
 	gogoalarea
-
 };
-
 
 
 

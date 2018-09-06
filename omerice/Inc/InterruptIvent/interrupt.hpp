@@ -17,7 +17,6 @@ extern TimerInterrupt3 *int3;
 extern TimerInterrupt4 *int4;
 extern TimerInterrupt5 *int5;
   //excution excu;
-int flag=0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			{
 
@@ -62,8 +61,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 				if(htim->Instance == TIM6)//0.025�ｿｽﾍア�ｿｽE�ｿｽg�ｿｽv�ｿｽb�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
 					{
-					//flag++;
-					Robo->gyro.outdegculc(2);
+					Robo->gyro.outdegculc(1);
 					}
 			}
 	void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)

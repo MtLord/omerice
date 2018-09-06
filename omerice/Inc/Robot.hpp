@@ -36,11 +36,11 @@ class Robot
 
 	 //const float R= 0.10;//É^ÉCÉÑÇÃîºåa
 	 //const float T= 0.342; //é‘ïù                            íPà m
-
+	encoderA en_a;
+	encoderD en_d;
 
 public:
-	encoderA en_a;
-		encoderD en_d;
+
 	encoderB en_b;
 	encoderC en_c;
 	localization loca;
