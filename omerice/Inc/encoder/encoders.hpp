@@ -7,9 +7,28 @@
 
 #ifndef ENCODER_ENCODERS_HPP_
 #define ENCODER_ENCODERS_HPP_
+#include "encoderA.hpp"
+#include "encoderB.hpp"
+class encoders
+{
+long count[2];
+long point[2]={0,};
+long b_count[2]={0,};
+long hensa[2];
+public:
+	void countintegral();
+	long GetXcount()
+{
+	return point[0];
+}
+	long GetYcount()
+{
+	return point[1];
+}
+};
 
-const float sptim=100;
-const float pi=3.141592;
+
+
 
 
 

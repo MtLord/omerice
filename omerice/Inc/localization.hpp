@@ -9,56 +9,42 @@
 #define APPLICATION_LOCALIZATON_HPP_
 #include "Robot.hpp"
 #include "math.h"
-#include "encoder/encoderA.hpp"
-#include "encoder/encoderD.hpp"
+#include "encoder/encoders.hpp"
+
 #include "gyro/L3GD20.hpp"
 #include "math.h"
 
-#define Xencoder 0
-#define Yencoder 1
+
 class localization
 {
-	float radias;
+	float diameter=4.8;
+	uint16_t pulse=2048;
+	int flag;
 	float ShiftY;
 	float ShiftX;
-	float initX;
-	float initY;
-	float delta=0;
+	float initX=0;
+	float initY=0;
 	Gyro *GYRO;
-	encoderA *enA;
-	encoderD *enD;
+	encoders *enc;
 	 double point[2]={0,0};
 	 double b_dist[2];
 	 double hensa[2];
+	 const double pi=3.14159265358979323846264338;
 public:
 
-	void begin(encoderA *A,encoderD *D,Gyro *gyro)
+	void begin(encoders *_enc,Gyro *gyro)
 	{
-		radias=4.8;
-		this->enA=A;
-		this->enD=D;
+		this->enc=_enc;
 		this->GYRO=gyro;
 	}
-	void integralcount()
-	{
-		double dist[2]={enA->getdistance(),enD->getdistance()};
 
-		hensa[Xencoder]=dist[Xencoder]-b_dist[Xencoder];
-		hensa[1]=dist[Yencoder]-b_dist[Yencoder];
-		point[Xencoder]+=(hensa[Xencoder]*cos(GYRO->Zrad())-hensa[Yencoder]*sin(GYRO->Zrad()))*radias;
-		point[Yencoder]+=(hensa[Yencoder]*cos(GYRO->Zrad())+hensa[Xencoder]*sin(GYRO->Zrad()))*radias;
-		b_dist[Xencoder]=dist[Xencoder];
-		b_dist[Yencoder]=dist[Yencoder];
-	}
 	 double GetX()
 	{
-		return initX+cos(GYRO->Zrad())*(cos(delta)*(point[Xencoder]-ShiftX)-sin(delta)*(point[Yencoder]-ShiftY))
-				-sin(GYRO->Zrad())*(sin(delta)*(point[Xencoder]-ShiftX)+cos(delta)*(point[Yencoder]-ShiftY));
+		return ((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
 	}
 	 double GetY()
 	{
-		return initY+sin(GYRO->Zrad())*(cos(delta)*(point[Xencoder]-ShiftX)-sin(delta)*(point[Yencoder]-ShiftY))
-				+cos(GYRO->Zrad())*(sin(delta)*(point[Xencoder]-ShiftX)+cos(delta)*(point[Yencoder]-ShiftY));
+		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)-ShiftY+initY;
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -77,30 +63,24 @@ public:
 
 	void Setdiameter(float d)
 	{
-		enA->Setdiameter(d);
-		enD->Setdiameter(d);
+		 diameter=d;
+
 	}
-	void Setpulse(float P)
+	void Setpulse(int P)
 	{
-		enA->Setpulse(P);
-		enD->Setpulse(P);
+		 pulse=P;
 	}
 	void Setinitposition(float x,float y)
 	{
 		initX=x;
 		initY=y;
 	}
-	void Setdelta(float delta)
-	{
-		this->delta=delta;
-	}
+
 	void printcount()
 	{
-		printf("encodera:%f encoderd:%f\n\r",this->GetX(),this->GetY());
+		printf("encodera:%f encoderd:%f flag:%d\n\r",this->GetX(),this->GetY(),this->flag);
 	}
-	void printdistance(){
-		printf("GetX:%lf GetY:%lf",enA->getdistance(),enD->getdistance());
-	}
+
 };
 
 
