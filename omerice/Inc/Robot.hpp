@@ -22,7 +22,7 @@
 #include "PSpad_data.hpp"
 #include "servo/ServoA.hpp"
 #include "servo/ServoB.hpp"
-#include "localizaton.hpp"
+#include "localization.hpp"
 #include "Aircylinder/aircylinder1.hpp"
 #include "Aircylinder/aircylinder2.hpp"
 #include "Aircylinder/aircylinder3.hpp"
@@ -33,9 +33,6 @@
 class Robot
 {
 	private:
-
-	 //const float R= 0.10;//É^ÉCÉÑÇÃîºåa
-	 //const float T= 0.342; //é‘ïù                            íPà m
 	encoderA en_a;
 	encoderD en_d;
 

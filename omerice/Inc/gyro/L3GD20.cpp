@@ -92,6 +92,7 @@ void Gyro::gyro_init()
 					  average+=sample[i]/sample_rate;
 				  }
 				  stddev=sqrt(hataverage-average*average);
+				  HAL_TIM_Base_Start_IT(&htim6);
 	}
 void Gyro::Monitorvalue()
 {

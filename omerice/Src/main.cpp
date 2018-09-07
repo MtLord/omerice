@@ -254,11 +254,13 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
+ robot.gyro.gyro_init();
 //HAL_TIM_Base_Start_IT(&htim7);
  Application redzon;
  ApplicationBlue bluezon;
  Application *app=&redzon;
-
+ robot.loca.Setshitf_X(7.5);
+  robot.loca.Setshift_y(11);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -307,8 +309,9 @@ TimerInterrupt1 hint1(&htim7);
 /*/
 
 //app->Debug();
-	 robot.loca.printdistance();
+	 //robot.loca.printdistance();
 	  //robot.gyro.Monitorvalue();
+	  robot.loca.printcount();
 	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
 	  //printf("Acount:%d Dcount%d\n\r",robot.en_a.getcount(),robot.en_d.getcount());
 //ps3->cannode->Receeive();
