@@ -13,11 +13,11 @@
 class encoderA
 {
 private:
+	const float pi=3.141592;
 	int cnt1=0;
 	int cnt2=0;
+float sptim;
 
-	uint16_t pulse=1024;
-	float diameter;
 
 public:
 
@@ -29,11 +29,9 @@ public:
 
 	}
 	long getcount();
-	double getdistance();
+
 	float getangle();//return current angleuradv
 	float getvelocity();//Šp‘¬“x‚ğ•Ô‚·
-	void  Setdiameter(float d);
-	void Setpulse(float p);
 
 };
 

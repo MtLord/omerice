@@ -11,11 +11,11 @@
 #include "stm32f4xx_hal.h"
 
 #define sample_rate 500
-
+extern TIM_HandleTypeDef htim6;
 class Gyro
 {
 private:
-
+int flag=0;
 	SPI_HandleTypeDef *hspi3;
 	float sample[sample_rate];
 	float hataverage=0;
@@ -36,7 +36,7 @@ private:
 		float deg;
 
 public:
-		void gyro_init();
+	void gyro_init();
 	float Zrad();
 	float Zradvel();//return z axis velocity
 	void Monitorvalue();

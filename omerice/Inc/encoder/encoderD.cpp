@@ -5,9 +5,9 @@
  *      Author: —T‘¿
  */
 #include "encoderD.hpp"
-
-
-
+#include "Robot.hpp"
+#include "math.h"
+extern Robot *Robo;
 
 long encoderD::getcount()
 {
@@ -16,31 +16,11 @@ long encoderD::getcount()
 
 }
 
-float encoderD::getangle()
-{
-	return this->getcount()*2*pi/pulse;
-}
-
-float encoderD::getvelocity()
-{
-	cnt1=this->getangle();
-	HAL_Delay(sptim);
-	cnt2=this->getangle();
-	return (cnt2-cnt1)*1000/sptim;
-}
 
 
-double encoderD::getdistance()
-{
-	return ((double)this->getcount()*pi*diameter)/(double)pulse*4;
 
-}
 
-void encoderD::Setdiameter(float d)
-{
-	diameter=d;
-}
-void encoderD::Setpulse(float p)
-{
-	pulse=p;
-}
+
+
+
+

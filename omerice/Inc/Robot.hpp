@@ -22,7 +22,7 @@
 #include "PSpad_data.hpp"
 #include "servo/ServoA.hpp"
 #include "servo/ServoB.hpp"
-#include "localizaton.hpp"
+#include "localization.hpp"
 #include "Aircylinder/aircylinder1.hpp"
 #include "Aircylinder/aircylinder2.hpp"
 #include "Aircylinder/aircylinder3.hpp"
@@ -34,15 +34,13 @@ class Robot
 {
 	private:
 
-	 //const float R= 0.10;//É^ÉCÉÑÇÃîºåa
-	 //const float T= 0.342; //é‘ïù                            íPà m
-	encoderA en_a;
-	encoderD en_d;
 
 public:
-
+	encoderA en_a;
+	encoderD en_d;
 	encoderB en_b;
 	encoderC en_c;
+	encoders enc;
 	localization loca;
 	Sensor sensor;
 	air1 Air1;
@@ -67,10 +65,19 @@ public:
 			:en_a(_htim2),en_b(_htim3,500,4.8),en_c(_htim4,500,4.8),en_d(_htim5),m_a(_htim1),m_b(_htim1),m_c(_htim1),m_d(_htim1),m_e(_htim12),m_f(_htim12),
 			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8),sensor(_adchadndle)
 	{
-		loca.begin(&en_a,&en_d,&gyro);
-
+		loca.begin(&enc,&gyro);
 	}
-
+	void Motortest(float duty)
+		{
+			m_a.setDuty(duty);
+			m_b.setDuty(duty);
+			m_c.setDuty(duty);
+			m_d.setDuty(duty);
+		}
+	void Encodertest()
+		{
+			printf("encodera:%f encoderd:%f \n\r",loca.GetX(),loca.GetY());
+		}
 };
 
 
