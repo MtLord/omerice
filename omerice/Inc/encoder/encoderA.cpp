@@ -9,11 +9,6 @@ long encoderA::getcount()
 
 }
 
-float encoderA::getangle()
-{
-	return this->getcount()*2*pi/pulse;
-}
-
 float encoderA::getvelocity()
 {
 	cnt1=this->getangle();
@@ -23,18 +18,3 @@ float encoderA::getvelocity()
 }
 
 
-double encoderA::getdistance()
-{
-	return ((double)this->getcount()*pi*diameter)/(double)pulse;
-
-}
-
-void encoderA::Setdiameter(float d)
-{
-	diameter=d;
-}
-
-void encoderA::Setpulse(float p)
-{
-	pulse=p;
-}

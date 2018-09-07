@@ -36,6 +36,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
@@ -130,6 +131,7 @@ void __io_putchar(uint8_t ch)
 
 /* USER CODE BEGIN 0 */
 //#define useps3
+
  Robot *Robo;
  PS3controller *ps3;
  TimerInterrupt1 *int1;
@@ -137,6 +139,66 @@ void __io_putchar(uint8_t ch)
  TimerInterrupt3 *int3;
  TimerInterrupt4 *int4;
  TimerInterrupt5 *int5;
+ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+
+ 			{
+
+ 				if(htim->Instance == TIM3)
+ 				{
+ 					Robo->en_b.flag++;
+ 					if(Robo->en_b.flag>=1)
+ 					{
+ 					Robo->en_b.InterruptIventCallback();
+ 					}
+ 				}
+ 				if(htim->Instance == TIM4)
+ 				{
+ 					Robo->en_c.flag++;
+ 					if(Robo->en_c.flag>=1){
+ 					Robo->en_c.InterruptIventCallback();
+ 					}
+ 				}
+ 				if(htim->Instance==TIM7)
+ 				{
+
+ 					int1->TIMinterrupt();
+ 				}
+ 				if(htim->Instance==TIM10)
+ 				{
+
+
+ 				}
+ 				if(htim->Instance==TIM11)
+ 								{
+
+
+ 								}
+ 				if(htim->Instance==TIM13)
+ 				{
+
+
+ 				}
+ 				if(htim->Instance==TIM14)
+ 				{
+
+ 				}
+
+ 				if(htim->Instance == TIM6)//0.025�ｿｽﾍア�ｿｽE�ｿｽg�ｿｽv�ｿｽb�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
+ 					{
+
+ 					Robo->gyro.outdegculc(2.3);
+ 					Robo->enc.countintegral();
+ 					}
+ 			}
+ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+ 	{
+ 		if(GPIO_Pin==GPIO_PIN_3)
+ 		{
+ 			Robo->sensor.interrupter();
+
+ 		}
+ 	}
+
  void filterconfig()
  {
 
@@ -187,7 +249,7 @@ void __io_putchar(uint8_t ch)
   * @retval None
   */
 int main(void)
-{
+	{
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -236,7 +298,7 @@ int main(void)
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&hadc1);
 Robo=&robot;
 
-//state phase=state::CASE_WAIT;
+
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
 PS3controller PS3(&PS3_CAN);
@@ -252,8 +314,11 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
+ robot.gyro.gyro_init();
 //HAL_TIM_Base_Start_IT(&htim7);
 
+ //robot.loca.Setshitf_X(13);
+  //robot.loca.Setshift_y(-4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -265,37 +330,13 @@ TimerInterrupt1 hint1(&htim7);
 
   /* USER CODE BEGIN 3 */
 
+//ps3->cannode->Receeive();
+
+//printf("maru:%d\n\r",PS3.DOWN());
+
+//ps3->cannode->Sendreqest();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  /*//
-robot.m_a.setDuty(30);
-robot.m_b.setDuty(30);
-robot.m_c.setDuty(30);
-HAL_Delay(500);
-//robot.m_a.setDuty(-30);
-//robot.m_b.setDuty(-30);
-//robot.m_c.setDuty(-30);
-HAL_Delay(500);
-//*/
-
-	  //printf("maru:%d\n\r",PS3.MARU());
   }
 
   /* USER CODE END 3 */
@@ -426,7 +467,7 @@ static void MX_CAN1_Init(void)
   hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
   hcan1.Init.TimeSeg2 = CAN_BS2_3TQ;
   hcan1.Init.TimeTriggeredMode = DISABLE;
-  hcan1.Init.AutoBusOff = ENABLE;
+  hcan1.Init.AutoBusOff = DISABLE;
   hcan1.Init.AutoWakeUp = DISABLE;
   hcan1.Init.AutoRetransmission = DISABLE;
   hcan1.Init.ReceiveFifoLocked = DISABLE;

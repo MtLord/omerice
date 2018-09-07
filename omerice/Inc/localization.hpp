@@ -9,36 +9,42 @@
 #define APPLICATION_LOCALIZATON_HPP_
 #include "Robot.hpp"
 #include "math.h"
-#include "encoder/encoderA.hpp"
-#include "encoder/encoderD.hpp"
+#include "encoder/encoders.hpp"
+
 #include "gyro/L3GD20.hpp"
+#include "math.h"
 
 
 class localization
 {
+	float diameter=4.8;
+	uint16_t pulse=2048;
+	int flag;
 	float ShiftY;
 	float ShiftX;
-	encoderA *enA;
-	encoderD *enD;
+	float initX=0;
+	float initY=0;
 	Gyro *GYRO;
-
-
-
+	encoders *enc;
+	 double point[2]={0,0};
+	 double b_dist[2];
+	 double hensa[2];
+	 const double pi=3.14159265358979323846264338;
 public:
 
-	void begin(encoderA *A,encoderD *D,Gyro *gyro)
+	void begin(encoders *_enc,Gyro *gyro)
 	{
-		this->enA=A;
-		this->enD=D;
+		this->enc=_enc;
 		this->GYRO=gyro;
 	}
+
 	 double GetX()
 	{
-		return -1*enA->getdistance()-ShiftY*sin(GYRO->Zrad())-ShiftX*cos(GYRO->Zrad())+ShiftX;
+		return ((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
 	}
 	 double GetY()
 	{
-		return enD->getdistance()+ShiftX*sin(GYRO->Zrad())+ShiftY*cos(GYRO->Zrad());
+		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)-ShiftY+initY;
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -46,7 +52,7 @@ public:
 	 float GetYaw(){
 		return GYRO->Zrad();
 	}
-	//virtual ~localization();
+
 	void Setshitf_X(float x)//機体中心からのズレを記述
 	{
 		ShiftX=x;
@@ -56,24 +62,23 @@ public:
 	}
 
 	void Setdiameter(float d)
+	{
+		 diameter=d;
+
+	}
+	void Setpulse(int P)
+	{
+		 pulse=P;
+	}
+	void Setinitposition(float x,float y)
+	{
+		initX=x;
+		initY=y;
+	}
 
 
-	{
-		enA->Setdiameter(d);
-		enD->Setdiameter(d);
-	}
-	void Setpulse(float P)
-	{
-		enA->Setpulse(P);
-		enD->Setpulse(P);
-	}
-	void printcount()
-	{
-		printf("encodera:%ld encoderd:%ld\n\r",enA->getcount(),enD->getcount());
-	}
-	void printdistance(){
-		printf("GetX:%lf GetY:%lf",enA->getdistance(),enD->getdistance());
-	}
+
+
 };
 
 

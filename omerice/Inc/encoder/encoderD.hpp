@@ -14,9 +14,9 @@ class encoderD
 private:
 	int cnt1=0;
 	int cnt2=0;
-
+	const float pi=3.141592;
 	uint16_t pulse=1024;
-	float diameter;
+	float sptim;
 
 public:
 
@@ -25,14 +25,14 @@ public:
 	{
 		HAL_TIM_Encoder_Start(_htim5, TIM_CHANNEL_ALL);
 		TIM5->CNT=2147483647;
-		this->Setdiameter(4.8);
+
 	}
 	long getcount();
+
 	double getdistance();
-	float getangle();//return current angleuradv
+
 	float getvelocity();//Šp‘¬“x‚ğ•Ô‚·
-	void  Setdiameter(float d);
-	void Setpulse(float p);
+
 
 };
 
