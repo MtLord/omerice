@@ -36,7 +36,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-
+#include <InterruptIvent/interrupt.cpp>
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
@@ -46,6 +46,7 @@
 #include <iostream>
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
+#include "application/excuteApplication.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
 using namespace std;
 
@@ -131,9 +132,10 @@ void __io_putchar(uint8_t ch)
 
 /* USER CODE BEGIN 0 */
 //#define useps3
-
- Robot *Robo;
+ can_bus *canhadle;
  PS3controller *ps3;
+ Robot *Robo;
+
  TimerInterrupt1 *int1;
  TimerInterrupt2 *int2;
  TimerInterrupt3 *int3;
@@ -186,7 +188,7 @@ void __io_putchar(uint8_t ch)
  				if(htim->Instance == TIM6)//0.025�ｿｽﾍア�ｿｽE�ｿｽg�ｿｽv�ｿｽb�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
  					{
 
- 					Robo->gyro.outdegculc(2.3);
+ 					Robo->gyro.outdegculc(2.5);
  					Robo->enc.countintegral();
  					}
  			}
@@ -228,7 +230,7 @@ void __io_putchar(uint8_t ch)
    if(hcan->Instance==CAN1)
    {
 	   //printf("interrupt\n\r");
-	   ps3->cannode->Receeive();
+	   canhadle->Receeive();
    }
 
 
@@ -238,7 +240,7 @@ void __io_putchar(uint8_t ch)
    if(hcan->Instance==CAN1)
    {
 	   //printf("interrupt\n\r");
-	   ps3->cannode->Receeive();
+	   canhadle->Receeive();
    }
  }
 /* USER CODE END 0 */
@@ -253,6 +255,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
+
 
   /* MCU Configuration----------------------------------------------------------*/
 
@@ -297,10 +300,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&hadc1);
 Robo=&robot;
-
-
+//HAL_SuspendTick();
+state phase=state::CASE_WAIT;
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
+canhadle=&PS3_CAN;
 PS3controller PS3(&PS3_CAN);
 ps3=&PS3;
 #endif
@@ -316,9 +320,11 @@ TimerInterrupt1 hint1(&htim7);
  int5=&hint5;
  robot.gyro.gyro_init();
 //HAL_TIM_Base_Start_IT(&htim7);
-
- //robot.loca.Setshitf_X(13);
-  //robot.loca.Setshift_y(-4);
+ Application redzon;
+ ApplicationBlue bluezon;
+ Application *app=&redzon;
+ robot.loca.Setshitf_X(13);
+  robot.loca.Setshift_y(-4);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -329,7 +335,79 @@ TimerInterrupt1 hint1(&htim7);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  /*//
+	  for(int i=0;i<200;i++)
+	  {
+		  HAL_Delay(20);
+		  switch(phase)
+		  {
+		  case state::CASE_WAIT:
+			  //if(app->BuleButton()==0)
+			  //{
+				  phase=state::gogachiasariokiba;
+			  //}
+			  break;
+		  case state::gogachiasariokiba:
+			  app->gogachiasariokiba(i);
+			  if(robot.loca.GetX()==99.4&&robot.loca.GetY()==200)
+			  {
+				  phase=state::gogachiasari;
+			  }
+			  break;
+		  case state::gogachiasari:
+			  app->gogachiasariokiba(i);
+			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
+			  {
+				  phase=state::gogoalarea;
+			  }
+			  break;
+		  case state::gogoalarea:
+			  app->gogoalarea(i);
+			  if(robot.loca.GetX()==110&&robot.loca.GetY()==275)
+			  			  {
 
+		  }
+
+	  }
+//*/
+/*
+	  switch(phase)
+	  		  {
+	  		  case state::CASE_WAIT:
+	  			  //if(app->BuleButton()==0)
+	  			  //{
+	  				  phase=state::gogachiasariokiba;
+	  			  //}
+	  			  break;
+	  		  case state::gogachiasariokiba:
+	  			  app->Debug1();
+	  			  if(robot.loca.GetY()>=75)
+	  			  {
+	  				  phase=state::gogachiasari;
+	  			  }
+	  			  break;
+	  		  case state::gogachiasari:
+	  			  app->Debug2();
+	  			  if(robot.loca.GetX()>=40&&robot.loca.GetY()<=75)
+	  			  	  {
+	  				  phase=state::gogoalarea;
+	  			  	  }
+	  			  break;
+	  		  case state::gogoalarea:
+	  			  app->Debug3();
+					break;
+*/
+
+//app->manualcontrol();
+//app->Debug();
+
+	  //robot.gyro.Monitorvalue();
+	 // app->Debug1();
+	  robot.loca.printcount();
+	  //printf("count:%d",flag);
+	  //robot.gyro.Monitorvalue();
+	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
+	  //printf("Acount:%d Dcount%d\n\r",robot.en_a.getcount(),robot.en_d.getcount());
 //ps3->cannode->Receeive();
 
 //printf("maru:%d\n\r",PS3.DOWN());
@@ -337,11 +415,19 @@ TimerInterrupt1 hint1(&htim7);
 //ps3->cannode->Sendreqest();
 
 
+
+
+
+
+
+
+	  }
+
   }
 
   /* USER CODE END 3 */
 
-}
+
 
 /**
   * @brief System Clock Configuration

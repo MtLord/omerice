@@ -66,18 +66,9 @@ public:
 			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8),sensor(_adchadndle)
 	{
 		loca.begin(&enc,&gyro);
+
 	}
-	void Motortest(float duty)
-		{
-			m_a.setDuty(duty);
-			m_b.setDuty(duty);
-			m_c.setDuty(duty);
-			m_d.setDuty(duty);
-		}
-	void Encodertest()
-		{
-			printf("encodera:%f encoderd:%f \n\r",loca.GetX(),loca.GetY());
-		}
+
 };
 
 

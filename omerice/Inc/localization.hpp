@@ -40,7 +40,7 @@ public:
 
 	 double GetX()
 	{
-		return ((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
+		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
 	}
 	 double GetY()
 	{
@@ -76,8 +76,10 @@ public:
 		initY=y;
 	}
 
-
-
+	void printcount()
+	{
+		printf("encodera:%f encoderd:%f flag:%d\n\r",this->GetX(),this->GetY(),this->flag);
+	}
 
 };
 
