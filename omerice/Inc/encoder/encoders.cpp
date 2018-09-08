@@ -12,6 +12,7 @@ extern Robot *Robo;
 
 void encoders::countintegral()
 {
+	 long hensa[2];
 		count[0]=Robo->en_a.getcount();
 		count[1]=Robo->en_d.getcount();
 		hensa[0]=count[0]-b_count[0];

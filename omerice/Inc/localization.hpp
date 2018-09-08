@@ -28,7 +28,7 @@ class localization
 	encoders *enc;
 	 double point[2]={0,0};
 	 double b_dist[2];
-	 double hensa[2];
+
 	 const double pi=3.14159265358979323846264338;
 public:
 
