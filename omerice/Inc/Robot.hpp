@@ -65,7 +65,7 @@ public:
 			:en_a(_htim2),en_b(_htim3,500,4.8),en_c(_htim4,500,4.8),en_d(_htim5),m_a(_htim1),m_b(_htim1),m_c(_htim1),m_d(_htim1),m_e(_htim12),m_f(_htim12),
 			 pspad(_hspi2),gyro(_hspi3),servoa(htim8),servob(htim8),sensor(_adchadndle)
 	{
-		loca.begin(&enc,&gyro);
+		loca.begin(&enc,&gyro,&en_a,&en_d);
 	}
 	void Motortest(float duty)
 		{

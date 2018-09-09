@@ -20,31 +20,31 @@ class localization
 	float diameter=4.8;
 	uint16_t pulse=2048;
 	int flag;
-	float ShiftY;
-	float ShiftX;
-	float initX=0;
-	float initY=0;
+	float ShiftY=0;
+	float ShiftX=0;
+
 	Gyro *GYRO;
 	encoders *enc;
-	 double point[2]={0,0};
-	 double b_dist[2];
-
+	encoderA *ena;
+	encoderD *end;
 	 const double pi=3.14159265358979323846264338;
 public:
 
-	void begin(encoders *_enc,Gyro *gyro)
+	void begin(encoders *_enc,Gyro *gyro,encoderA *_ena,encoderD *_end)
 	{
 		this->enc=_enc;
 		this->GYRO=gyro;
+		ena=_ena;
+		end=_end;
 	}
 
 	 double GetX()
 	{
-		return ((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
+		return ((double)ena->getcount()*pi*diameter)/((double)pulse*4)-ShiftX;
 	}
 	 double GetY()
 	{
-		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)-ShiftY+initY;
+		 return ((double)end->getcount()*pi*diameter)/((double)pulse*4)-ShiftY;
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -69,11 +69,6 @@ public:
 	void Setpulse(int P)
 	{
 		 pulse=P;
-	}
-	void Setinitposition(float x,float y)
-	{
-		initX=x;
-		initY=y;
 	}
 
 
