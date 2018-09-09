@@ -20,31 +20,31 @@ class localization
 	float diameter=4.8;
 	uint16_t pulse=2048;
 	int flag;
-	float ShiftY=0;
-	float ShiftX=0;
-
+	float ShiftY;
+	float ShiftX;
+	float initX=30;
+	float initY=0;
 	Gyro *GYRO;
 	encoders *enc;
-	encoderA *ena;
-	encoderD *end;
+	 double point[2]={0,0};
+	 double b_dist[2];
+	 double hensa[2];
 	 const double pi=3.14159265358979323846264338;
 public:
 
-	void begin(encoders *_enc,Gyro *gyro,encoderA *_ena,encoderD *_end)
+	void begin(encoders *_enc,Gyro *gyro)
 	{
 		this->enc=_enc;
 		this->GYRO=gyro;
-		ena=_ena;
-		end=_end;
 	}
 
 	 double GetX()
 	{
-		return ((double)ena->getcount()*pi*diameter)/((double)pulse*4)-ShiftX;
+		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)+ShiftX*cos(this->GetYaw()) - ShiftY*sin(this->GetYaw())-ShiftX+initX;//フィールド座標系に変換
 	}
 	 double GetY()
 	{
-		 return ((double)end->getcount()*pi*diameter)/((double)pulse*4)-ShiftY;
+		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)+ShiftY*cos(this->GetYaw()) + ShiftX*sin(this->GetYaw())-ShiftY;
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -70,9 +70,16 @@ public:
 	{
 		 pulse=P;
 	}
+	void Setinitposition(float x,float y)
+	{
+		initX=x;
+		initY=y;
+	}
 
-
-
+	void printcount()
+	{
+		printf("encodera:%f encoderd:%f flag:%f\n\r",this->GetX(),this->GetY(),this->GetYaw());
+	}
 
 };
 
