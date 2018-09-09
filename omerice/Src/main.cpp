@@ -291,7 +291,9 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
-  //MX_CAN1_Init();
+#ifdef useps3
+  MX_CAN1_Init();
+#endif
   MX_TIM8_Init();
   MX_SPI2_Init();
   MX_SPI3_Init();
