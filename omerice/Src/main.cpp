@@ -188,7 +188,7 @@ void __io_putchar(uint8_t ch)
  				if(htim->Instance == TIM6)//0.025�ｿｽﾍア�ｿｽE�ｿｽg�ｿｽv�ｿｽb�ｿｽg�ｿｽ�ｿｽ�ｿｽ�ｿｽ
  					{
 
- 					Robo->gyro.outdegculc(2.5);
+ 					Robo->gyro.outdegculc(2.7);
  					Robo->enc.countintegral();
  					}
  			}
@@ -251,7 +251,7 @@ void __io_putchar(uint8_t ch)
   * @retval None
   */
 int main(void)
-	{
+{
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -301,7 +301,7 @@ int main(void)
 Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&hadc1);
 Robo=&robot;
 //HAL_SuspendTick();
-state phase=state::CASE_WAIT;
+//state phase=state::CASE_WAIT;
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
 canhadle=&PS3_CAN;
@@ -323,8 +323,7 @@ TimerInterrupt1 hint1(&htim7);
  Application redzon;
  ApplicationBlue bluezon;
  Application *app=&redzon;
- robot.loca.Setshitf_X(13);
-  robot.loca.Setshift_y(-4);
+ int phase=0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -370,43 +369,50 @@ TimerInterrupt1 hint1(&htim7);
 
 	  }
 //*/
-
+/*
 	  switch(phase)
 	  		  {
-	  		  case state::CASE_WAIT:
+	  		  case 0:
 	  			  //if(app->BuleButton()==0)
 	  			  //{
-	  				  phase=state::gogachiasariokiba;
+	  				  phase=1;
 	  			  //}
 	  			  break;
-	  		  case state::gogachiasariokiba:
+	  		  case 1:
 	  			  app->Debug1();
-	  			  if(robot.loca.GetY()>=75)
+	  			  if(robot.loca.GetY()>=70)
 	  			  {
-	  				  phase=state::gogachiasari;
+	  				  phase=2;
 	  			  }
 	  			  break;
-	  		  case state::gogachiasari:
+	  		  case 2:
 	  			  app->Debug2();
-	  			  if(robot.loca.GetX()>=40&&robot.loca.GetY()<=75)
+	  			  if(robot.loca.GetX()>=55&&robot.loca.GetY()<=75)
 	  			  	  {
-	  				  phase=state::gogoalarea;
+	  				  phase=3;
 	  			  	  }
 	  			  break;
-	  		  case state::gogoalarea:
+	  		  case 3:
 	  			  app->Debug3();
 	  			  if(robot.loca.GetY()>=119){
-
+	  				phase=4;
 	  			  }
 	  			break;
+	  		  case 4:
+	  			  app->Debug4();
+	  			  if(robot.loca.GetX()<=0)
+	  			  {
+
+	  			  }
+*/
+app->Debug1();
+HAL_Delay(10);
+//app->manualcontrol();
 
 
-app->manualcontrol();
+	 // robot.gyro.Monitorvalue();
 
-
-	  //robot.gyro.Monitorvalue();
-
-	  //robot.loca.printcount();
+	  robot.loca.printcount();
 	  //printf("count:%d",flag);
 	  //robot.gyro.Monitorvalue();
 	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
@@ -426,7 +432,7 @@ app->manualcontrol();
 
 	  }
 
-  }
+
 
   /* USER CODE END 3 */
 	}

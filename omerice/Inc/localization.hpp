@@ -22,7 +22,7 @@ class localization
 	int flag;
 	float ShiftY;
 	float ShiftX;
-	float initX=0;
+	float initX=30;
 	float initY=0;
 	Gyro *GYRO;
 	encoders *enc;
@@ -40,11 +40,11 @@ public:
 
 	 double GetX()
 	{
-		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)-ShiftX+initX;
+		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)+ShiftX*cos(this->GetYaw()) - ShiftY*sin(this->GetYaw())-ShiftX+initX;//フィールド座標系に変換
 	}
 	 double GetY()
 	{
-		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)-ShiftY+initY;
+		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)+ShiftY*cos(this->GetYaw()) + ShiftX*sin(this->GetYaw())-ShiftY;
 	}
 	 float GetZvel(){
 		return GYRO->Zradvel();
@@ -78,7 +78,7 @@ public:
 
 	void printcount()
 	{
-		printf("encodera:%f encoderd:%f flag:%d\n\r",this->GetX(),this->GetY(),this->flag);
+		printf("encodera:%f encoderd:%f flag:%f\n\r",this->GetX(),this->GetY(),this->GetYaw());
 	}
 
 };

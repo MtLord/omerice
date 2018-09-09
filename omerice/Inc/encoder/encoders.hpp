@@ -12,7 +12,7 @@
 class encoders
 {
 long count[2];
-long point[2]={0,};
+float point[2]={0,};
 long b_count[2]={0,};
 long hensa[2];
 public:

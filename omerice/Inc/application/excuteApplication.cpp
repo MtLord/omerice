@@ -10,35 +10,44 @@
 #include "Robot.hpp"
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
+#include "math.h"
 extern can_bus *canhadle;
 extern  Robot *Robo;
 extern  PS3controller *ps3;
 void Application::Debug1()
 {
-	 game.PIDtheta.set_gain(1.5,0.0003,0);
-		 game.PIDx.set_gain(0.5,0.005,0);
-		 game.PIDy.set_gain(0.5,0.005,0);
-
-		 game.GOPosition(0,75,0);
+	 game.PIDtheta.set_gain(1.5,0,0);
+			 game.PIDx.set_gain(1,0,0);
+			 game.PIDy.set_gain(1,0,0);
+			 time+=0.01;
+		 game.GOPosition(30*cos(PI*time),30*sin(PI*time),0);
 }
 
 void Application::Debug2()
 {
-	 game.PIDtheta.set_gain(1.5,0.0003,0);
+	 game.PIDtheta.set_gain(1.5,0,0);
 	game.PIDx.set_gain(0.5,0,0);
 	game.PIDy.set_gain(0.5,0,0);
-	game.GOPosition(70,75,0);
+	game.GOPosition(60,60,0);
 
 }
 void Application::Debug3()
 {
 	 game.PIDtheta.set_gain(1.5,0,0);
-	game.PIDx.set_gain(0.5,0,0);
-	game.PIDy.set_gain(0.5,0,0);
-	game.GOPosition(70,120,0);
+	game.PIDx.set_gain(0.5,0.005,0);
+	game.PIDy.set_gain(0.5,0.005,0);
+	game.GOPosition(60,120,0);
 
 }
 
+void Application::Debug4()
+{
+	 game.PIDtheta.set_gain(1.5,0,0);
+		game.PIDx.set_gain(0.5,0,0);
+		game.PIDy.set_gain(0.5,0,0);
+		game.GOPosition(0,120,-PI/2);
+
+}
 void Application::gogachiasariokiba(int i)
 {
 	float t=i/200;

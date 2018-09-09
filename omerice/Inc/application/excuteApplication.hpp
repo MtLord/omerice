@@ -15,6 +15,9 @@ class Application
 	float manualX=0;
 	float manualY=0;
 	float manualtheta=0;
+	float time;
+	float s;
+	float c;
 protected:
 	const float PI=3.14159265;
 
@@ -32,6 +35,7 @@ public:
 	 void Debug1();
 	 void Debug2();
 	 void Debug3();
+	 void Debug4();
 	 virtual ~Application(){}
 	 int BuleButton();
 	 virtual void manualcontrol();
