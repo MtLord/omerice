@@ -36,7 +36,7 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include <InterruptIvent/interrupt.cpp>
+
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
@@ -370,7 +370,7 @@ TimerInterrupt1 hint1(&htim7);
 
 	  }
 //*/
-/*
+
 	  switch(phase)
 	  		  {
 	  		  case state::CASE_WAIT:
@@ -395,15 +395,18 @@ TimerInterrupt1 hint1(&htim7);
 	  			  break;
 	  		  case state::gogoalarea:
 	  			  app->Debug3();
-					break;
-*/
+	  			  if(robot.loca.GetY()>=119){
 
-//app->manualcontrol();
-//app->Debug();
+	  			  }
+	  			break;
+
+
+app->manualcontrol();
+
 
 	  //robot.gyro.Monitorvalue();
-	 // app->Debug1();
-	  robot.loca.printcount();
+
+	  //robot.loca.printcount();
 	  //printf("count:%d",flag);
 	  //robot.gyro.Monitorvalue();
 	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
@@ -426,7 +429,7 @@ TimerInterrupt1 hint1(&htim7);
   }
 
   /* USER CODE END 3 */
-
+	}
 
 
 /**

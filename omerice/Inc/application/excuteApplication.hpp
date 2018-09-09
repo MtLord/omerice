@@ -12,9 +12,9 @@
 #include "app_y/bezier.hpp"
 class Application
 {
-	long manualX=0;
-	long manualY=0;
-	long manualtheta=0;
+	float manualX=0;
+	float manualY=0;
+	float manualtheta=0;
 protected:
 	const float PI=3.14159265;
 

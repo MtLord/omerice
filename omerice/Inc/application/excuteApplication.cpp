@@ -35,7 +35,7 @@ void Application::Debug3()
 	 game.PIDtheta.set_gain(1.5,0,0);
 	game.PIDx.set_gain(0.5,0,0);
 	game.PIDy.set_gain(0.5,0,0);
-	game.GOPosition(70,100,0);
+	game.GOPosition(70,120,0);
 
 }
 
@@ -71,9 +71,9 @@ void Application::manualcontrol()
 	 game.PIDx.set_gain(0.7,0,0);
 	 game.PIDy.set_gain(0.7,0,0);
 	 canhadle->Receeive();
-	 manualX+=ps3->ANALOG_LEFT_X()-124;
-	 manualY+=ps3->ANALOG_LEFT_Y()-124;
-	 manualtheta+=ps3->ANALOG_RIGHT_X()-124;
+	 manualX+=(float)(ps3->ANALOG_LEFT_X()-124)*0.01;
+	 manualY+=(float)(ps3->ANALOG_LEFT_Y()-124)*0.01;
+	 manualtheta+=-(float)(ps3->ANALOG_RIGHT_X()-124)*0.01;
 	game.GOPosition(manualX,manualY,manualY);
 	canhadle->Sendreqest();
 }
