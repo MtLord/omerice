@@ -8,6 +8,7 @@
 #include <gyro/L3GD20.hpp>
 #include "math.h"
  const float pi=3.141592;
+#define usecut
 uint8_t Gyro::readByte(uint8_t reg )
 {
 	uint8_t address,val;
@@ -51,14 +52,34 @@ float Gyro::Zrad()
 
 void Gyro::outdegculc(float stdvalue)
 {
-	flag++;
+
+#ifdef usecut
 	vel=getZvel();
+
 	if((vel<(average-stddev*stdvalue))||vel>(average+stddev*stdvalue))
 	{
 								deg+=(vel+prevel)*0.0025/2;
 								prevel=vel;
 								radvel=getZvel();
 	}
+#endif
+	//常に足し続ける
+#ifndef usecut
+	if(getZvel()>=0)
+	{
+		vel=(getZvel()-this->average)-stddev*stdvalue;
+		deg+=(vel+prevel)*0.0025/2;
+		prevel=vel;
+		radvel=getZvel();
+	}
+	else if(getZvel()<0)
+	{
+		vel=(getZvel()-this->average)+stddev*stdvalue;
+		deg+=(vel+prevel)*0.0025/2;
+				prevel=vel;
+				radvel=getZvel();
+	}
+#endif
 }
 
 float Gyro::Zradvel()
@@ -96,5 +117,5 @@ void Gyro::gyro_init()
 	}
 void Gyro::Monitorvalue()
 {
-	printf("gyrodeg:%f vel:%f stddev:%f avel:%f int:%d\n\r",this->deg,this->getZvel(),stddev,average,flag);
+	printf("%f %f %f %f \n\r",this->deg,this->getZvel(),stddev,average);
 }

@@ -76,22 +76,22 @@ void Application::gogoalarea(int i)
 }
 void Application::manualcontrol()
 {
-	 game.PIDtheta.set_gain(1.3,0,0);
-	 game.PIDx.set_gain(0.7,0,0);
-	 game.PIDy.set_gain(0.7,0,0);
+	 game.PIDtheta.set_gain(15,0,0);
+	 game.PIDx.set_gain(70,0,0);
+	 game.PIDy.set_gain(70,0,0);
 	 canhadle->Receeive();
-	 manualX+=(float)(ps3->ANALOG_LEFT_X()-124)*0.01;
-	 manualY+=(float)(ps3->ANALOG_LEFT_Y()-124)*0.01;
-	 manualtheta+=-(float)(ps3->ANALOG_RIGHT_X()-124)*0.01;
+	 manualX+=(float)(ps3->ANALOG_LEFT_X()-128)*0.001;
+	 manualY+=(float)(ps3->ANALOG_LEFT_Y()-128)*0.001;
+	 manualtheta+=-(float)(ps3->ANALOG_RIGHT_X()-128)*0.001;
 	game.GOPosition(manualX,manualY,manualY);
 	canhadle->Sendreqest();
 }
 
 Application::Application()
 {
-	Robo->loca.Setshitf_X(13);
-	Robo->loca.Setshift_y(-2);
-	Robo->loca.Setdiameter(4.8);
+	Robo->loca.Setshitf_X(0.013);
+	Robo->loca.Setshift_y(-0.002);
+	Robo->loca.Setdiameter(0.048);
 	Robo->loca.Setpulse(1024);
 	//Robo->loca.Setinitposition(37.5,20.5);
 }

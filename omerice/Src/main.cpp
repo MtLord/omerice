@@ -131,7 +131,7 @@ void __io_putchar(uint8_t ch)
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-//#define useps3
+#define useps3
  can_bus *canhadle;
  PS3controller *ps3;
  Robot *Robo;
@@ -251,7 +251,7 @@ void __io_putchar(uint8_t ch)
   * @retval None
   */
 int main(void)
-{
+	{
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -302,6 +302,7 @@ Robot robot(&hspi2,&hspi3,&htim1,&htim2,&htim3,&htim4,&htim5,&htim8,&htim12,&had
 Robo=&robot;
 //HAL_SuspendTick();
 //state phase=state::CASE_WAIT;
+robot.gyro.gyro_init();
 #ifdef useps3
 can_bus PS3_CAN(&hcan1);
 canhadle=&PS3_CAN;
@@ -318,7 +319,7 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
- robot.gyro.gyro_init();
+
 //HAL_TIM_Base_Start_IT(&htim7);
  Application redzon;
  ApplicationBlue bluezon;
@@ -405,23 +406,23 @@ TimerInterrupt1 hint1(&htim7);
 
 	  			  }
 */
-app->Debug1();
-HAL_Delay(10);
+//app->Debug1();
+//HAL_Delay(10);
 //app->manualcontrol();
 
 
-	 // robot.gyro.Monitorvalue();
+	  //robot.gyro.Monitorvalue();
 
-	  robot.loca.printcount();
+	  //robot.loca.printcount();
 	  //printf("count:%d",flag);
 	  //robot.gyro.Monitorvalue();
 	  //printf("Adis:%f Ddis%f\n\r",robot.en_a.getdistance(),robot.en_d.getdistance());
 	  //printf("Acount:%d Dcount%d\n\r",robot.en_a.getcount(),robot.en_d.getcount());
-//ps3->cannode->Receeive();
+ps3->cannode->Receeive();
 
-//printf("maru:%d\n\r",PS3.DOWN());
+printf("x:%d y:%d\n\r",PS3.ANALOG_LEFT_X(),PS3.ANALOG_LEFT_Y());
 
-//ps3->cannode->Sendreqest();
+ps3->cannode->Sendreqest();
 
 
 
