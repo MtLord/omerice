@@ -15,7 +15,7 @@ extern Robot *Robo;
 	{
 		/****************enocoderC callback function here*************************/
 
-
+//32915
 
 		/*****************************************************************/
 	}
@@ -25,7 +25,7 @@ extern Robot *Robo;
 	void encoderB::InterruptIventCallback()
 	{
 		/****************enocoderB callback function here*************************/
-
+		//Robo->m_c.mbreak();
 
 
 

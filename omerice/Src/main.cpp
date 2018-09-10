@@ -132,30 +132,34 @@ void __io_putchar(uint8_t ch)
 //#define useps3
 
  Robot *Robo;
- //PS3controller *ps3;
+ PS3controller *ps3;
  can_bus *canhandel;
  TimerInterrupt1 *int1;
  TimerInterrupt2 *int2;
  TimerInterrupt3 *int3;
  TimerInterrupt4 *int4;
  TimerInterrupt5 *int5;
+ int flag;
  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
  			{
 
  				if(htim->Instance == TIM3)
  				{
- 					Robo->en_b.flag++;
- 					if(Robo->en_b.flag>=1)
+
+ 					if(flag>0)
  					{
- 					Robo->en_b.InterruptIventCallback();
+ 						Robo->m_c.mbreak();
+ 					//Robo->en_b.InterruptIventCallback();
  					}
+ 					flag++;
  				}
  				if(htim->Instance == TIM4)
  				{
- 					Robo->en_c.flag++;
+
  					if(Robo->en_c.flag>=1){
  					Robo->en_c.InterruptIventCallback();
+ 					Robo->en_c.flag++;
  					}
  				}
  				if(htim->Instance==TIM7)
@@ -329,7 +333,8 @@ TimerInterrupt1 hint1(&htim7);
  int3=&hint3;
  int4=&hint4;
  int5=&hint5;
-
+robot.en_b.setcount(32915);
+robot.m_c.setDuty(30);
 //HAL_TIM_Base_Start_IT(&htim7);
 
 
@@ -344,8 +349,12 @@ TimerInterrupt1 hint1(&htim7);
 
   /* USER CODE BEGIN 3 */
 //robot.Encodertest();
-	  printf("%d %d \n\r",robot.en_a.getcount(),robot.en_d.getcount());
+	  //robot.m_d.setDuty(5);
+	  printf("%d  \n\r",robot.en_b.getcount());
 	  //robot.gyro.Monitorvalue();
+	 // PS3.cannode->Receeive();
+	  //printf("x:%d y:%d\n\r",PS3.ANALOG_LEFT_X(),PS3.ANALOG_LEFT_Y());
+	  //PS3.cannode->Sendreqest();
 
 
   }
