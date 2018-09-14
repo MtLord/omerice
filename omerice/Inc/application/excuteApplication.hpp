@@ -10,14 +10,16 @@
 
 #include <application/move.hpp>
 #include "app_y/bezier.hpp"
+#include "PS3/PS3class.hpp"
 class Application
 {
 	float manualX=0;
 	float manualY=0;
-	float manualtheta=0;
+	double manualtheta=0;
 	float time;
 	float s;
 	float c;
+	PS3controller *ps3;
 protected:
 	const float PI=3.14159265;
 
@@ -31,6 +33,7 @@ protected:
 
 public:
 	 move game;
+	 Application(PS3controller *_ps3);
 	 Application();
 	 void Debug1();
 	 void Debug2();

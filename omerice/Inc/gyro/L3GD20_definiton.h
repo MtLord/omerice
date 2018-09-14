@@ -19,8 +19,10 @@
 #define Certain 0xD4
 #define STATUS_reg 0x27
 /************command******************/
+
 #define CTRL_REG1_cmd 0x8C//cutoff 20hz
 #define CTRL_REG2_cmd 0x01//cutoff15hz
+#define L3GD20_250dps 0x00
 #define L3GD20_500dps 0x10
 #define L3GD20_2000dps 0x20
 #define CTRL_REG5_cmd 0x10

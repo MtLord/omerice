@@ -18,26 +18,26 @@ private:
 int flag=0;
 	SPI_HandleTypeDef *hspi3;
 	float sample[sample_rate];
-	float hataverage=0;
+	double hataverage=0;
 	int i;
-	float radvel=0;
+	double radvel=0;
 	uint8_t readByte(uint8_t reg );
 	void writeByte( uint8_t reg, uint8_t val );
 
 	uint8_t ret;
-		 float vel;
-		 float prevel;
+		 double vel;
+		 double prevel;
 
 
 
-		 float average;
-		float stddev;
-		float getZvel();
-		float deg;
+		 double average;
+		double stddev;
+		double getZvel();
+		 double deg;
 
 public:
 	void gyro_init();
-	float Zrad();
+	double Zrad();
 	float Zradvel();//return z axis velocity
 	void Monitorvalue();
 

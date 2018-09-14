@@ -40,10 +40,15 @@ public:
 
 	 double GetX()
 	{
+
 		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)+ShiftX*cos(this->GetYaw()) - ShiftY*sin(this->GetYaw())-ShiftX;//フィールド座標系に変換
+
+		return -((double)enc->GetXcount()*pi*diameter)/((double)pulse*4)+ShiftX*cos(this->GetYaw()) - ShiftY*sin(this->GetYaw())-ShiftX+initX;//フィールド座標系に変換
+
 	}
 	 double GetY()
 	{
+
 		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)+ShiftY*cos(this->GetYaw()) + ShiftX*sin(this->GetYaw())-ShiftY;
 	}
 	 float GetZvel(){
@@ -84,6 +89,5 @@ public:
 };
 
 
-//y38.65 x60
 
 #endif /* APPLICATION_LOCALIZATON_HPP_ */

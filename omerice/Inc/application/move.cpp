@@ -12,13 +12,16 @@ void move::GOPosition(float x,float y,float yaw)
 {
 	PIDx.set_present(Robo->loca.GetX());//現在地をセット
 	PIDy.set_present(Robo->loca.GetY());
-	//PIDomega.set_present(Robo->loca.GetZvel());
+
 	PIDtheta.set_present(Robo->loca.GetYaw());
-	dist.DistributeS(PIDx.run_pid(x),PIDy.run_pid(y),PIDtheta.run_pid(yaw),Robo->loca.GetYaw());
+	//dist->DistributeS(PIDx.run_pid(x),PIDy.run_pid(y),PIDtheta.run_pid(yaw),Robo->loca.GetYaw());
+	dist->DistributeS(x,y,yaw,Robo->loca.GetYaw());
+	//printf("x%f y%f\n\r",x,y);
 	//printf("%f %f\n\r",Robo->loca.GetYaw()*180/3.141592,PIDomega.run_pid(yaw));
-	Robo->m_a.setDuty(dist.v1);
-	Robo->m_b.setDuty(dist.v2);
-	Robo->m_c.setDuty(dist.v3);
+	Robo->m_a.setDuty(dist->v1);
+	Robo->m_b.setDuty(dist->v2);
+	Robo->m_c.setDuty(dist->v3);
+	//Robo->m_d.setDuty(dist->v4);
 }
 
 

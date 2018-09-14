@@ -11,12 +11,11 @@
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
 #include "math.h"
-extern can_bus *canhadle;
+//extern can_bus *canhadle;
 extern  Robot *Robo;
-extern  PS3controller *ps3;
 void Application::Debug1()
 {
-	 game.PIDtheta.set_gain(1.5,0,0);
+	 game.PIDtheta.set_gain(0.5,0,0);
 			 game.PIDx.set_gain(1,0,0);
 			 game.PIDy.set_gain(1,0,0);
 			 time+=0.01;
@@ -25,27 +24,27 @@ void Application::Debug1()
 
 void Application::Debug2()
 {
-	 game.PIDtheta.set_gain(1.5,0,0);
-	game.PIDx.set_gain(0.5,0,0);
-	game.PIDy.set_gain(0.5,0,0);
-	game.GOPosition(60,60,0);
+	 game.PIDtheta.set_gain(0.5,0,0);
+	game.PIDx.set_gain(1,0,0);
+	game.PIDy.set_gain(1,0,0);
+	game.GOPosition(0,0,PI);
 
 }
 void Application::Debug3()
 {
-	 game.PIDtheta.set_gain(1.5,0,0);
-	game.PIDx.set_gain(0.5,0.005,0);
-	game.PIDy.set_gain(0.5,0.005,0);
-	game.GOPosition(60,120,0);
+	 game.PIDtheta.set_gain(0.5,0,0);
+	game.PIDx.set_gain(1,0,0);
+	game.PIDy.set_gain(1,0,0);
+	game.GOPosition(0,0,0);
 
 }
 
 void Application::Debug4()
 {
-	 game.PIDtheta.set_gain(1.5,0,0);
-		game.PIDx.set_gain(0.5,0,0);
-		game.PIDy.set_gain(0.5,0,0);
-		game.GOPosition(0,120,-PI/2);
+	 game.PIDtheta.set_gain(1,0,0);
+		game.PIDx.set_gain(1,0,0);
+		game.PIDy.set_gain(1,0,0);
+		game.GOPosition(0,0,0);
 
 }
 void Application::gogachiasariokiba(int i)
@@ -76,24 +75,39 @@ void Application::gogoalarea(int i)
 }
 void Application::manualcontrol()
 {
-	 game.PIDtheta.set_gain(15,0,0);
-	 game.PIDx.set_gain(70,0,0);
-	 game.PIDy.set_gain(70,0,0);
-	 canhadle->Receeive();
-	 manualX+=(float)(ps3->ANALOG_LEFT_X()-128)*0.001;
-	 manualY+=(float)(ps3->ANALOG_LEFT_Y()-128)*0.001;
-	 manualtheta+=-(float)(ps3->ANALOG_RIGHT_X()-128)*0.001;
-	game.GOPosition(manualX,manualY,manualY);
-	canhadle->Sendreqest();
+	 game.PIDtheta.set_gain(1 ,0,0);
+	 game.PIDx.set_gain(35,0,0);
+	 game.PIDy.set_gain(35,0,0);
+
+	 //ps3->cannode->Sendreqest();
+	 float con_x = (ps3->ANALOG_LEFT_X() - 127) /127;
+	 float con_y = (ps3->ANALOG_LEFT_Y() - 127) /127;
+	 float con_yaw = (ps3->ANALOG_RIGHT_X() - 127) /127;
+	 float terget_x = Robo->loca.GetX() + con_x;
+	 float terget_y = Robo->loca.GetY() + con_y;
+	 float terget_yaw  = Robo->loca.GetYaw() - con_yaw;
+	 //printf("x:%f y:%f yaw:%f\n\r",Robo->loca.GetX(),Robo->loca.GetY(),Robo->loca.GetYaw());
+
+	game.GOPosition((ps3->ANALOG_LEFT_X() - 127)/3,(ps3->ANALOG_LEFT_Y() - 127)/3,-con_yaw);
+	//printf("%f %f %f\n\r",manualX,manualY,manualtheta);
+
 }
 
-Application::Application()
+Application::Application(PS3controller *_ps3)
 {
-	Robo->loca.Setshitf_X(0.013);
-	Robo->loca.Setshift_y(-0.002);
-	Robo->loca.Setdiameter(0.048);
+	ps3=_ps3;
+	Robo->loca.Setshitf_X(13);// 13 -2
+	Robo->loca.Setshift_y(-2);
+	Robo->loca.Setdiameter(4.8);
 	Robo->loca.Setpulse(1024);
-	//Robo->loca.Setinitposition(37.5,20.5);
+
+}
+Application::Application(){
+
+		Robo->loca.Setshitf_X(13);// 13 -2
+		Robo->loca.Setshift_y(-2);
+		Robo->loca.Setdiameter(4.8);
+		Robo->loca.Setpulse(1024);
 }
 int Application::BuleButton()
 {
