@@ -22,7 +22,7 @@ class localization
 	int flag;
 	float ShiftY;
 	float ShiftX;
-	float initX=30;
+	float initX=0;
 	float initY=0;
 	Gyro *GYRO;
 	encoders *enc;
@@ -44,6 +44,7 @@ public:
 	}
 	 double GetY()
 	{
+
 		 return ((double)enc->GetYcount()*pi*diameter)/((double)pulse*4)+ShiftY*cos(this->GetYaw()) + ShiftX*sin(this->GetYaw())-ShiftY;
 	}
 	 float GetZvel(){
@@ -84,6 +85,5 @@ public:
 };
 
 
-//y38.65 x60
 
 #endif /* APPLICATION_LOCALIZATON_HPP_ */

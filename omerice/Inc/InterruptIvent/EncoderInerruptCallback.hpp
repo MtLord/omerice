@@ -9,7 +9,6 @@
 #define INTERRUPTIVENT_ENCODERINERRUPTCALLBACK_HPP_
 #include "encoder/encoderC.hpp"
 #include "encoder/encoderD.hpp"
-extern Robot *Robo;
 
 	void encoderC::InterruptIventCallback()
 	{
@@ -25,9 +24,9 @@ extern Robot *Robo;
 	void encoderB::InterruptIventCallback()
 	{
 		/****************enocoderB callback function here*************************/
-		//Robo->m_c.mbreak();
 
 
+		m_c->mbreak();
 
 
 

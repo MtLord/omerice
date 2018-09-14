@@ -8,29 +8,37 @@
 #ifndef ENCODER_ENCODERB_HPP_
 #define ENCODER_ENCODERB_HPP_
 #include "encoders.hpp"
+#include "Motor/MotorD.hpp"
+#include "Motor/MotorE.hpp"
+#include "Motor/MotorF.hpp"
+#include "Motor/MotorC.hpp"
+
 #include "stm32f4xx_hal.h"
 class encoderB
 {
 private:
-
-	long count=0;
-	int cnt1=0;
-	int cnt2=0;
+	MotorD *m_d;
+	MotorE *m_e;
+	MotorF *m_f;
+	MotorC *m_c;
 	unsigned short CNT=0;
-	unsigned long temp=0;
 
-	uint16_t pulse;
-	float diameter;
 	TIM_HandleTypeDef *htim3;
 public:
 	int flag=0;
-
-	encoderB(TIM_HandleTypeDef *_htim3,uint16_t stddev,float d):pulse(stddev*4),diameter(d),htim3(_htim3)
+	void begin(MotorC *motord,MotorD *_motord,MotorE *_motore,MotorF *_motorf)
+	{
+		m_d=_motord;
+		m_e=_motore;
+		m_f=_motorf;
+		m_c=motord;
+	}
+	encoderB(TIM_HandleTypeDef *_htim3):htim3(_htim3)
 	{
 
 		HAL_TIM_Encoder_Start(_htim3, TIM_CHANNEL_ALL);
 		 TIM3->CNT=0x8000;
-		HAL_TIM_Base_Start_IT(_htim3);
+
 
 	}
 	long getcount();

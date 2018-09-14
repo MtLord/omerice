@@ -6,7 +6,31 @@
  */
 #include "adc_class.hpp"
 
-void Sensor::interrupter()
+void Sensor::interrupter3()
+{
+	/***********interruptercallback*********************/
+
+
+
+
+
+
+
+
+}
+void Sensor::interrupter2()
+{
+	/***********interruptercallback*********************/
+
+
+
+
+
+
+
+
+}
+void Sensor::interrupter1()
 {
 	/***********interruptercallback*********************/
 

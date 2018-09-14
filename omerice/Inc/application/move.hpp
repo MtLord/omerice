@@ -13,10 +13,14 @@ class move
 {
 private:
     int i=4;
-	DistributeSpeed dist;
+
+    DistributeSpeed3 omu3;
+     DistributeSpeed4 omu4;
+     DistributeSpeed3 *dist=&omu3;
 
 public:
-	move():dist(16){}
+
+
 		pid PIDx;
 		pid PIDy;
 		pid PIDomega;

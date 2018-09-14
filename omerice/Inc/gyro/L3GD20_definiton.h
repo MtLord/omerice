@@ -21,6 +21,7 @@
 /************command******************/
 #define CTRL_REG1_cmd 0x8C
 #define CTRL_REG2_cmd 0x01
+#define L3GD20_250dps 0x00
 #define L3GD20_500dps 0x10
 #define L3GD20_2000dps 0x20
 #define CTRL_REG5_cmd 0x10

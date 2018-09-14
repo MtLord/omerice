@@ -10,11 +10,19 @@
 
 #include <application/move.hpp>
 #include "app_y/bezier.hpp"
+#include "PS3/PS3class.hpp"
 class Application
 {
+	float manualX=0;
+	float manualY=0;
+	double manualtheta=0;
+	float time;
+	float s;
+	float c;
+	PS3controller *ps3;
 protected:
 	const float PI=3.14159265;
-	move game;
+
 	 float t=0;
 	 bezier bezierPX;
 	 bezier bezierPY;
@@ -24,8 +32,13 @@ protected:
 	 	}
 
 public:
+	 move game;
+	 Application(PS3controller *_ps3);
 	 Application();
-	 void Debug();
+	 void Debug1();
+	 void Debug2();
+	 void Debug3();
+	 void Debug4();
 	 virtual ~Application(){}
 	 int BuleButton();
 	 virtual void manualcontrol();

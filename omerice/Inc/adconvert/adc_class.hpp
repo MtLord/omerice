@@ -13,15 +13,13 @@
 class convert
 {
 protected:
-	//const unsigned int ADCbuffer=4;
-	//const int ADC_BUFFER_LENGTH = 4 ;
-	enum{ ADC_BUFFER_LENGTH = 4};
-	uint16_t g_ADCBuffer[ADC_BUFFER_LENGTH];
+	ADC_HandleTypeDef *adchandle;
+	long Getadcvalue=0;
 public:
 
-	convert(ADC_HandleTypeDef *adc_dma)
+	convert(ADC_HandleTypeDef *adc_dma):adchandle(adc_dma)
 	{
-		HAL_ADC_Start_DMA(adc_dma, (uint32_t *)g_ADCBuffer,ADC_BUFFER_LENGTH);
+
 	}
 
 };
@@ -31,16 +29,20 @@ class Sensor:public convert
 
 public:
 	using convert::convert;
-	long sensor1(){
-		return g_ADCBuffer[0];
+	long sensor1()
+	{
+		HAL_ADC_Start(adchandle);
+		 if(HAL_ADC_PollForConversion(adchandle,1000)==HAL_OK)
+			  {
+
+			 	 Getadcvalue= HAL_ADC_GetValue(adchandle);
+			  }
+		 HAL_ADC_Stop(adchandle);
+		 return Getadcvalue;
 	}
-	long sensor2(){
-		return g_ADCBuffer[1];
-	}
-	long sensor3(){
-		return g_ADCBuffer[2];
-	}
-	void interrupter();
+		 void interrupter1();
+		 void interrupter2();
+	void interrupter3();
 };
 
 
