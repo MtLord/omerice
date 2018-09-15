@@ -46,7 +46,7 @@
 #include "PS3/PS3class.hpp"
 #include "CAN/CAN.hpp"
 #include "InterruptIvent/TimerInterruptCallback.hpp"
-#include "application/excuteApplication.hpp"
+
 using namespace std;
 
 /* USER CODE END Includes */
@@ -207,6 +207,16 @@ void __io_putchar(uint8_t ch)
  			Robo->sensor.interrupter3();
 
  		}
+ 		if(GPIO_Pin==GPIO_PIN_1)
+ 		 		{
+ 		 			Robo->sensor.interrupter1();
+
+ 		 		}
+ 		if(GPIO_Pin==GPIO_PIN_0)
+ 		 		 		{
+ 		 		 			Robo->sensor.interrupter2();
+
+ 		 		 		}
  	}
 
  void filterconfig()
@@ -792,9 +802,9 @@ static void MX_TIM8_Init(void)
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
 
   htim8.Instance = TIM8;
-  htim8.Init.Prescaler = 130;
+  htim8.Init.Prescaler = 15;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 12499;
+  htim8.Init.Period = 9999;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   if (HAL_TIM_PWM_Init(&htim8) != HAL_OK)
