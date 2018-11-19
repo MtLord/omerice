@@ -140,57 +140,42 @@ void __io_putchar(uint8_t ch)
  TimerInterrupt3 *int3;
  TimerInterrupt4 *int4;
  TimerInterrupt5 *int5;
- int flagb=0;
- int flagc=0;
+ int intcount=0;
+
  void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
  			{
 
+				if(htim->Instance == TIM2)
+				{
+					Robo->m_a.mbreak();
+					intcount++;
+
+				}
  				if(htim->Instance == TIM3)
  				{
 
- 					//if(flagb>=1)
- 					//{
- 					 	Robo->en_b.InterruptIventCallback();
+ 					Robo->m_b.mbreak();
 
- 					 //}
- 					flagb++;
 
  				}
  				if(htim->Instance == TIM4)
  				{
+ 					intcount++;
+ 					Robo->m_c.mbreak();
+ 				}
 
- 					//if(flagc>=1)
- 					//{
- 					//Robo->en_c.InterruptIventCallback();
+ 				if(htim->Instance == TIM5)
+ 				{
 
- 					//}
- 					//flagc++;
- 					Robo->m_b.mbreak();
+ 					Robo->m_d.mbreak();
+
+
  				}
  				if(htim->Instance==TIM7)
  				{
 
  					int1->TIMinterrupt();
- 				}
- 				if(htim->Instance==TIM10)
- 				{
-
-
- 				}
- 				if(htim->Instance==TIM11)
- 								{
-
-
- 								}
- 				if(htim->Instance==TIM13)
- 				{
-
-
- 				}
- 				if(htim->Instance==TIM14)
- 				{
-
  				}
 
  				if(htim->Instance == TIM6)//0.025???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��ア???��?��??��?��???��?��??��?��???��?��??��?��E???��?��??��?��???��?��??��?��???��?��??��?��g???��?��??��?��???��?��??��?��???��?��??��?��v???��?��??��?��???��?��??��?��???��?��??��?��b???��?��??��?��???��?��??��?��???��?��??��?��g???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��???��?��??��?��
@@ -275,7 +260,11 @@ void __io_putchar(uint8_t ch)
  				   printf("Txerror\n\r");
  			  }
  	}
-
+enum mode
+{
+	foward,rot
+};
+enum mode fase=foward;
 /* USER CODE END 0 */
 
 /**
@@ -353,7 +342,14 @@ TimerInterrupt1 hint1(&htim7);
 
 HAL_TIM_Base_Start_IT(&htim3);
 HAL_TIM_Base_Start_IT(&htim4);
-
+htim2.Init.Period=2048;
+htim3.Init.Period=2048;
+htim4.Init.Period=2048;
+htim5.Init.Period=2048;
+robot.m_a.mbreak();
+robot.m_b.mbreak();
+robot.m_c.mbreak();
+robot.m_d.mbreak();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -363,7 +359,36 @@ HAL_TIM_Base_Start_IT(&htim4);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  switch(fase) //離散制御？
+	  {
+	  case foward:
+	  if(intcount%2==0)
+	  {
+		 robot.m_a.setDuty(20); //調整可能なパラメータはデューティと制御周期
+		 robot.m_d.setDuty(20);
+	  }
+	  else
+	  {
+		robot.m_b.setDuty(20);
+		robot.m_c.setDuty(20);
+	  }
+	  HAL_Delay(300);
+	  printf("m1%ld m2%ld m3%ld m4%ld\n\r",TIM2->CNT,TIM3->CNT,TIM4->CNT,TIM5->CNT);
+	  break;
 
+	  case rot:
+		  if(intcount%2==0)
+		  	  {
+		  		 robot.m_a.setDuty(20); //調整可能なパラメータはデューティと制御周期
+		  		 robot.m_d.setDuty(-20);
+		  	  }
+		  	  else
+		  	  {
+		  		robot.m_b.setDuty(20);
+		  		robot.m_c.setDuty(-20);
+		  	  }
+		  break;
+	  }
   }
 
   /* USER CODE END 3 */
@@ -615,7 +640,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 4294967295;
+  htim2.Init.Period = 4096;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
@@ -650,7 +675,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 4096;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
@@ -685,7 +710,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 65535;
+  htim4.Init.Period = 4096;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
@@ -720,7 +745,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 0;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 4294967295;
+  htim5.Init.Period = 4096;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
