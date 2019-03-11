@@ -225,7 +225,6 @@ HAL_StatusTypeDef HAL_Init(void);
 HAL_StatusTypeDef HAL_DeInit(void);
 void HAL_MspInit(void);
 void HAL_MspDeInit(void);
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 HAL_StatusTypeDef HAL_InitTick (uint32_t TickPriority);
 /**
   * @}

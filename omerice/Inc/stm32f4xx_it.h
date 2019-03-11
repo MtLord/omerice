@@ -4,7 +4,7 @@
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -55,11 +55,13 @@ void CAN1_RX0_IRQHandler(void);
 void CAN1_RX1_IRQHandler(void);
 void CAN1_SCE_IRQHandler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
+void TIM2_IRQHandler(void);
 void TIM3_IRQHandler(void);
 void TIM4_IRQHandler(void);
 void SPI2_IRQHandler(void);
 void TIM8_UP_TIM13_IRQHandler(void);
 void TIM8_TRG_COM_TIM14_IRQHandler(void);
+void TIM5_IRQHandler(void);
 void SPI3_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
 void TIM7_IRQHandler(void);
