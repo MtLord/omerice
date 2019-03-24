@@ -5,7 +5,7 @@ f * MotorB.cpp
  *      Author: —T‘¿
  */
 #include "MotorB.hpp"
-
+#include "main.h"
 void MotorB::setDuty(float d)
 {
 	//__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(d,0,100,0,999));
@@ -27,7 +27,7 @@ void MotorB::begin()
 {
 	if (HAL_TIM_PWM_Start(Motorhandler,TIM_CHANNEL_2) != HAL_OK)       //HAL‚ÌŽd—l
 			{
-			  Error_Handler();
+
 			}
 			HAL_GPIO_WritePin(GPIOB,GPIO_PIN_15,GPIO_PIN_RESET);
 

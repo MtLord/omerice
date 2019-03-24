@@ -5,7 +5,7 @@
  *      Author: —T‘¿
  */
 #include "MotorF.hpp"
-
+#include "main.h"
 void MotorF::setDuty(float d)
 {
 	//__HAL_TIM_SetCompare(htim1,TIM_CHANNEL_1,map(d,0,100,0,999));

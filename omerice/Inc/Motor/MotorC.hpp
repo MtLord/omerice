@@ -10,7 +10,7 @@
 
 
 #include "Motors.hpp"
-
+#include "main.h"
 class MotorC:public Motors
 {
 private:

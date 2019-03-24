@@ -9,7 +9,7 @@
 #define MOTOR_MOTORD_HPP_
 
 #include "Motors.hpp"
-
+#include "main.h"
 class MotorD:public Motors
 {
 private:

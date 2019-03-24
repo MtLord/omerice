@@ -10,25 +10,17 @@
 
 #include "stm32f4xx_hal.h"
 
-class convert
+
+
+
+class Sensor
 {
-protected:
 	ADC_HandleTypeDef *adchandle;
-	long Getadcvalue=0;
+		long Getadcvalue=0;
 public:
+		Sensor(ADC_HandleTypeDef *adc_dma):adchandle(adc_dma){
 
-	convert(ADC_HandleTypeDef *adc_dma):adchandle(adc_dma)
-	{
-
-	}
-
-};
-
-class Sensor:public convert
-{
-
-public:
-	using convert::convert;
+		}
 	long sensor1()
 	{
 		HAL_ADC_Start(adchandle);
