@@ -7,7 +7,7 @@
 
 #ifndef CAN_CAN_HPP_
 #define CAN_CAN_HPP_
-#include "can.h"
+//#include "can.h"
 #include "stm32f4xx_hal.h"
 
 class ExtCnaBus
@@ -24,6 +24,7 @@ class StdCanBus
 {
 	CAN_TxHeaderTypeDef Txmsg;
 	uint8_t TX_BUF[8]={0,};
+	bool Txok=false;
 public:
 	CAN_RxHeaderTypeDef RXmsg;
 		unsigned char RxFIFO_Data[];

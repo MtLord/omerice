@@ -155,7 +155,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/omerice/Drivers/CMSIS/Device/ST/STM32F4xx/Include}&quot;" />
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/omerice/Drivers/STM32F4xx_HAL_Driver/Inc}&quot;" />
 									<listOptionValue builtIn="false" value="../Inc" />
-								<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /></option>
+								<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /></option>
 								<option id="com.atollic.truestudio.exe.release.toolchain.gcc.debug.info.1623670541" name="Debug Level" superClass="com.atollic.truestudio.exe.release.toolchain.gcc.debug.info" value="com.atollic.truestudio.gcc.debug.info.0" valueType="enumerated" />
 								<option id="com.atollic.truestudio.gcc.cstandard.992791702" name="C standard" superClass="com.atollic.truestudio.gcc.cstandard" value="com.atollic.truestudio.gcc.cstandard.gnu1x" valueType="enumerated" />
 								<option id="com.atollic.truestudio.gcc.symbols.defined.336149920" name="Defined symbols" superClass="com.atollic.truestudio.gcc.symbols.defined" valueType="definedSymbols">
@@ -193,7 +193,7 @@
 									<listOptionValue builtIn="false" value="/omerice/Drivers/CMSIS/Device/ST/STM32F4xx/Include" />
 									<listOptionValue builtIn="false" value="/omerice/Drivers/STM32F4xx_HAL_Driver/Inc" />
 									<listOptionValue builtIn="false" value="../Inc" />
-								<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /></option>
+								<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc" /><listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include" /><listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" /></option>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.913140627" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F446RE" valueType="enumerated" />
 								<option id="com.atollic.truestudio.common_options.target.instr_set.964255053" name="Instruction set" superClass="com.atollic.truestudio.common_options.target.instr_set" />
 								<option id="com.atollic.truestudio.common_options.target.fpu.323376586" name="Floating point" superClass="com.atollic.truestudio.common_options.target.fpu" value="com.atollic.truestudio.common_options.target.fpu.soft" valueType="enumerated" />

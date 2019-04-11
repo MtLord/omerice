@@ -28,7 +28,7 @@
 #include "Aircylinder/aircylinder5.hpp"
 #include "adconvert/adc_class.hpp"
 /****************************************/
-struct LowlayerHandle
+struct LowlayerHandleTypdef
 {
 	private:
 
@@ -50,8 +50,9 @@ public:
 	air5 Air5;
 	//Gyro gyro;
 
-	LowlayerHandle():en_a(&htim2),en_b(&htim3),en_c(&htim4),en_d(&htim5),m_a(&htim1)
+	LowlayerHandleTypdef():en_a(&htim2),en_b(&htim3),en_c(&htim4),en_d(&htim5),m_a(&htim1)
 		,m_b(&htim1),m_c(&htim1),m_d(&htim1),m_e(&htim12),m_f(&htim12),sensor(&hadc1)
+
 
 	{
 

@@ -16,16 +16,25 @@ class CanTask
 protected:
 	unsigned short comustd=0;
 	unsigned short comuext=0;
-	ExtCnaBus *canbus;
-	LowlayerHandle *plow;
+	StdCanBus *canbus;
+	LowlayerHandleTypdef *plow;
 	float dutytemp=0;
 	unsigned char countbuf[4]={0,};
-	void countset(LowlayerHandle *low);
+	void countset(LowlayerHandleTypdef *low);
 	virtual void SetDuty();//state if
-	virtual void SendEncoder();
+
+	long count1=0;
+	long count2=0;
+	long count3=0;
+	long count4=0;
+	long count5=0;
+	long count6=0;
+	long count7=0;
+	long count8=0;
 public:
-	void TaskShift();
-	CanTask(ExtCnaBus *_canbus,LowlayerHandle *_plow):canbus(_canbus),plow(_plow)
+	virtual void TaskShift();
+	virtual void SendEncoder();
+	CanTask(StdCanBus *_canbus,LowlayerHandleTypdef *_plow):canbus(_canbus),plow(_plow)
 	{
 
 	}
@@ -34,8 +43,10 @@ public:
 class CanTask2:public CanTask //2Ç¬ñ⁄ÇÃÉ{Å[Éh
 {
 	virtual void SetDuty();//state if
-	virtual void SendEncoder();
+
 public:
+	virtual void SendEncoder();
+
 	using CanTask::CanTask;
 
 };
@@ -43,7 +54,7 @@ public:
 class CanTask3:public CanTask
 {
 	virtual void SetDuty();//state if
-	virtual void SendEncoder();
+	void SendEncoder();
 public:
 
 };

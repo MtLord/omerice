@@ -5,22 +5,26 @@
  *      Author: —T‘¿
  */
 #include "CANTask.hpp"
+#include "stm32f4xx_hal.h"
 
-extern unsigned char RxFIFO_Data[6];
+extern unsigned char RxFIFO_Data[7];
 extern CAN_RxHeaderTypeDef RXmsg;
+const unsigned int siftbit=4;
 void CanTask::TaskShift()
 {
 	unsigned long m_orderid=RXmsg.StdId>>4;
-	unsigned long orderid=RXmsg.ExtId>10;
+	//unsigned long orderid=RXmsg.ExtId>>10;
 	comustd=RXmsg.StdId&0xF;//‚±‚±•sˆÀ
-	comuext=RXmsg.ExtId&0xF;
+	//comuext=RXmsg.ExtId&0xF;
 	if(m_orderid==0x02)
 	{
 		SetDuty();
+		//SendEncoder();
+
 	}
-	if(orderid==0x40)//get count
+	if(m_orderid==0x40)//get count
 	{
-		SendEncoder();
+
 	}
 }
 
@@ -56,38 +60,45 @@ void CanTask::SetDuty()
 
 void CanTask::SendEncoder()
 {
-	switch(comuext)
-	{
-	case 1:
-		countbuf[0]=((unsigned char*)plow->en_a.getcount())[0];
-			countbuf[1]=((unsigned char*)plow->en_a.getcount())[1];
-			countbuf[2]=((unsigned char*)plow->en_a.getcount())[2];
-			countbuf[3]=((unsigned char*)plow->en_a.getcount())[3];
-			canbus->Send(0x40<<10|comuext,4,countbuf);
-			break;
-	case 2:
-		countbuf[0]=((unsigned char*)plow->en_b.getcount())[0];
-		countbuf[1]=((unsigned char*)plow->en_b.getcount())[1];
-		countbuf[2]=((unsigned char*)plow->en_b.getcount())[2];
-		countbuf[3]=((unsigned char*)plow->en_b.getcount())[3];
-		canbus->Send(0x40<<10|comuext,4,countbuf);
-			break;
-	case 3:
-		countbuf[0]=((unsigned char*)plow->en_c.getcount())[0];
-		countbuf[1]=((unsigned char*)plow->en_c.getcount())[1];
-		countbuf[2]=((unsigned char*)plow->en_c.getcount())[2];
-		countbuf[3]=((unsigned char*)plow->en_c.getcount())[3];
-				canbus->Send(0x40<<10|comuext,4,countbuf);
-					break;
-	case 4:
-		countbuf[0]=((unsigned char*)plow->en_d.getcount())[0];
-		countbuf[1]=((unsigned char*)plow->en_d.getcount())[1];
-		countbuf[2]=((unsigned char*)plow->en_d.getcount())[2];
-		countbuf[3]=((unsigned char*)plow->en_d.getcount())[3];
-				canbus->Send(0x40<<10|comuext,4,countbuf);
-					break;
+	switch(comustd)
+		{
+		case 1:
+			count1=plow->en_a.getcount();
+					 			countbuf[0]=((unsigned char*)&count1)[0];
+					 			countbuf[1]=((unsigned char*)&count1)[1];
+					 			countbuf[2]=((unsigned char*)&count1)[2];
+					 			countbuf[3]=((unsigned char*)&count1)[3];
 
-	}
+
+				break;
+		case 2:
+			count2=plow->en_b.getcount();
+					 		countbuf[0]=((unsigned char*)&count2)[0];
+					 		countbuf[1]=((unsigned char*)&count2)[1];
+					 		countbuf[2]=((unsigned char*)&count2)[2];
+					 		countbuf[3]=((unsigned char*)&count2)[3];
+
+
+				break;
+		case 3:
+			count3=plow->en_c.getcount();
+					 		countbuf[0]=((unsigned char*)&count3)[0];
+					 		countbuf[1]=((unsigned char*)&count3)[1];
+					 		countbuf[2]=((unsigned char*)&count3)[2];
+					 		countbuf[3]=((unsigned char*)&count3)[3];
+
+						break;
+		case 10:
+			count4=plow->en_d.getcount();
+					 		countbuf[0]=((unsigned char*)&count4)[0];
+					 		countbuf[1]=((unsigned char*)&count4)[1];
+					 		countbuf[2]=((unsigned char*)&count4)[2];
+					 		countbuf[3]=((unsigned char*)&count4)[3];
+
+						break;
+
+		}
+	canbus->Send(0x40<<siftbit|comustd,4,countbuf);
 }
 
 void CanTask2::SetDuty()
@@ -121,37 +132,47 @@ void CanTask2::SetDuty()
 
 void CanTask2::SendEncoder()
 {
-	switch(comuext)
-		{
-		case 5:
-			countbuf[0]=((unsigned char*)plow->en_a.getcount())[0];
-				countbuf[1]=((unsigned char*)plow->en_a.getcount())[1];
-				countbuf[2]=((unsigned char*)plow->en_a.getcount())[2];
-				countbuf[3]=((unsigned char*)plow->en_a.getcount())[3];
-				canbus->Send(0x40<<10|comuext,4,countbuf);
-				break;
-		case 6:
-			countbuf[0]=((unsigned char*)plow->en_b.getcount())[0];
-			countbuf[1]=((unsigned char*)plow->en_b.getcount())[1];
-			countbuf[2]=((unsigned char*)plow->en_b.getcount())[2];
-			countbuf[3]=((unsigned char*)plow->en_b.getcount())[3];
-			canbus->Send(0x40<<10|comuext,4,countbuf);
-				break;
-		case 7:
-			countbuf[0]=((unsigned char*)plow->en_c.getcount())[0];
-			countbuf[1]=((unsigned char*)plow->en_c.getcount())[1];
-			countbuf[2]=((unsigned char*)plow->en_c.getcount())[2];
-			countbuf[3]=((unsigned char*)plow->en_c.getcount())[3];
-					canbus->Send(0x40<<10|comuext,4,countbuf);
-						break;
-		case 8:
-			countbuf[0]=((unsigned char*)plow->en_d.getcount())[0];
-			countbuf[1]=((unsigned char*)plow->en_d.getcount())[1];
-			countbuf[2]=((unsigned char*)plow->en_d.getcount())[2];
-			countbuf[3]=((unsigned char*)plow->en_d.getcount())[3];
-					canbus->Send(0x40<<10|comuext,4,countbuf);
-						break;
+	switch(comustd)
+			{
+			case 5:
+				count5=plow->en_a.getcount();
+									countbuf[0]=((unsigned char*)&count5)[0];
+										countbuf[1]=((unsigned char*)&count5)[1];
+										countbuf[2]=((unsigned char*)&count5)[2];
+										countbuf[3]=((unsigned char*)&count5)[3];
 
-		}
+
+					break;
+			case 6:
+				count6=plow->en_b.getcount();
+									countbuf[0]=((unsigned char*)&count6)[0];
+									countbuf[1]=((unsigned char*)&count6)[1];
+									countbuf[2]=((unsigned char*)&count6)[2];
+									countbuf[3]=((unsigned char*)&count6)[3];
+
+					break;
+			case 7:
+				count7=plow->en_c.getcount();
+									countbuf[0]=((unsigned char*)&count7)[0];
+									countbuf[1]=((unsigned char*)&count7)[1];
+									countbuf[2]=((unsigned char*)&count7)[2];
+									countbuf[3]=((unsigned char*)&count7)[3];
+
+							break;
+			case 8:
+				count8=plow->en_d.getcount();
+									countbuf[0]=((unsigned char*)&count8)[0];
+									countbuf[1]=((unsigned char*)&count8)[1];
+									countbuf[2]=((unsigned char*)&count8)[2];
+									countbuf[3]=((unsigned char*)&count8)[3];
+
+							break;
+
+			}
+
+	canbus->Send(0x40<<siftbit|comustd,4,countbuf);
+
+
+
 }
 

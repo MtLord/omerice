@@ -6,8 +6,9 @@
  */
 #include "CAN.hpp"
 #include "LowlayerHandel.hpp"
-extern LowlayerHandle *plow;
-unsigned char RxFIFO_Data[6];
+#include "can.h"
+extern LowlayerHandleTypdef *plow;
+unsigned char RxFIFO_Data[7];
 CAN_RxHeaderTypeDef RXmsg;
 
 bool CanRxFlag=false;
@@ -66,7 +67,7 @@ short ExtCnaBus::Send(unsigned long ID,unsigned char DLC,unsigned char *data)
 				if(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
 				{
 
-					//HAL_Delay(100/1000);
+					HAL_Delay(200/1000);
 
 					if(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX1)!=HAL_OK)
 					{
@@ -102,13 +103,54 @@ short StdCanBus::Send(unsigned short ID,unsigned char DLC,unsigned char *data)
 	Txmsg.StdId=ID;
 	Txmsg.IDE=CAN_ID_STD;
 	Txmsg.RTR=CAN_RTR_DATA;
-	while(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
-				 	 {
-						return -1;
-						HAL_Delay(100/1000);
-						HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX0);
+	while(Txok==false)
+			{
+				if(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX0)!=HAL_OK)
+				{
+					if((hcan1.Instance->TSR&(0x1<<26))==0)
+					{//TEM0 is full
+						HAL_Delay(50/1000);
+						if(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX1)!=HAL_OK)
+						{
+							if((hcan1.Instance->TSR&(0x1<<27))==0)//TME1 is full
+							{
+								if(HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX2)!=HAL_OK)
+								{
+									if((hcan1.Instance->TSR&(0x1<<28))==0){
+										HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX0);
+									}
+									else{
+										HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX2);
+										return -1;
+									}
 
-				 	 }
+								}
+								else
+								{
+									Txok=true;
+								}
+							}
+							else if((hcan1.Instance->TSR&(0x1<<17))==0)
+							{
+								HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX2);
+							}
+						 }
+						else
+						{
+							Txok=true;
+						}
+					 }
+					else if((hcan1.Instance->TSR&(0x1<<17))==0)
+					{
+						HAL_CAN_AddTxMessage(&hcan1,&Txmsg,data,(uint32_t*)CAN_TX_MAILBOX1);
+					}
+				 }
+				else
+				{
+					Txok=true;
+				}
+			}
+return 0;
 }
 
 
